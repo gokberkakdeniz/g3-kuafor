@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:ital,wght@0,400;1,600&family=Merriweather:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-primary: #666b6e;      /* arkaplan koyu gri */
+  --color-bg-secondary: #545456;    /* daha koyu gri ana ekranda kullanılıyor */
+  --color-text-primary: #e6e6e6;    /* koyu arkaplan için beyaz yazı */
+  --color-text-secondary: #545456;  /* açık arkaplan için siyah yazı  */
+  --color-accent: #1096d1;          /* mavi */
+}
+
+@variants hover, focus {
+  .bg-primary {
+    background-color: var(--color-bg-primary);
+  }
+  
+  .text-primary {
+    color: var(--color-text-primary);
+  }
+  
+  .border-primary {
+    border-color: var(--color-text-primary);
+  }
+
+  .bg-secondary {
+    background-color: var(--color-bg-secondary);
+  }
+  
+  .text-secondary {
+    color: var(--color-text-secondary);
+  }
+  
+  .border-secondary {
+    border-color: var(--color-text-secondary);
+  }
+
+  .bg-accent {
+    background-color: var(--color-accent);
+  }
+  
+  .text-accent {
+    color: var(--color-accent);
+  }
+
+  .border-accent {
+    border-color: var(--color-accent);
+  }
+}
