@@ -12,6 +12,10 @@
   --color-accent: #1096d1;          /* mavi */
 }
 
+* {
+  color: var(--color-text-primary);
+}
+
 @variants hover, focus {
   .bg-primary {
     background-color: var(--color-bg-primary);
