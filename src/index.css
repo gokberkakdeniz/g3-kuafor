@@ -5,8 +5,8 @@
 @tailwind utilities;
 
 :root {
-  --color-bg-primary: #666b6e;      /* arkaplan koyu gri */
-  --color-bg-secondary: #545456;    /* daha koyu gri ana ekranda kullanılıyor */
+  --color-bg-primary: #545456;      /* arkaplan koyu gri */
+  --color-bg-secondary: #666b6e;    /* daha koyu gri ana ekranda kullanılıyor */
   --color-text-primary: #e6e6e6;    /* koyu arkaplan için beyaz yazı */
   --color-text-secondary: #545456;  /* açık arkaplan için siyah yazı  */
   --color-accent: #1096d1;          /* mavi */
