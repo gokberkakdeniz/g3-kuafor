@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../components";
+import EmployeeLogo from "../../store/images/EmployeesColored.png";
+import CalendarLogo from "../../store/images/CalendarColored.png";
 
 const Home = () => {
   return (
@@ -9,7 +11,7 @@ const Home = () => {
         <Link to="/employees">
           <div className="text-center">
             <img
-              src="https://via.placeholder.com/512x512"
+              src={EmployeeLogo}
               alt=""
               className="md:w-96 md:h-96 sm:w-48 sm:h-48 h-24 w-24 mx-auto"
             />
@@ -22,7 +24,7 @@ const Home = () => {
         <Link to="/calendar">
           <div className="text-center">
             <img
-              src="https://via.placeholder.com/512x512"
+              src={CalendarLogo}
               alt=""
               className="md:w-96 md:h-96 sm:w-48 sm:h-48 h-24 w-24 mx-auto"
             />
