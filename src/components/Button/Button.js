@@ -7,7 +7,7 @@ const Button = ({ className, onClick, type, children }) => {
     <button
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={clsx(className, "bg-accent w-32 h-10 rounded-3xl")}
+      className={className}
       onClick={onClick}>
       {children}
     </button>
