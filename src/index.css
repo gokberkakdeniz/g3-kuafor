@@ -20,6 +20,10 @@
   .bg-primary {
     background-color: var(--color-bg-primary);
   }
+
+  .bg-header {
+    background-color: var(--color-text-primary);
+  }
   
   .text-primary {
     color: var(--color-text-primary);
