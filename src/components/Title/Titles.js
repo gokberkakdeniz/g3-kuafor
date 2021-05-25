@@ -4,9 +4,7 @@ import Title from "./Title";
 const Titles = () => {
   return (
     <>
-      <h1
-        style={{ marginTop: "2%", position: "absolute", display: "flex" }}
-        className="text-primary text-3xl font-Open-Sans font-semibold ">
+      <h1 className="mt-2 absolute flex text-primary text-3xl font-Open-Sans font-semibold ">
         EMPLOYEES
       </h1>
       <Title
