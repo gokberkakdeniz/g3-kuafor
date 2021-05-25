@@ -1,11 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import styled from "styled-components";
 
-const SearchBarButton = ({ className, onClick, type, children }) => {
+const SearchBarButton = ({ className, onClick, style, children }) => {
+  const history = useHistory();
+  const location = useLocation();
+  const handleClick = () => {
+    if (location.pathname === "/search") return;
+    history.push("/search");
+  };
   return (
-    <Search>
+    <Search style={style} onClick={handleClick}>
       <IoIosSearch
         style={{ marginLeft: "1rem", position: "absolute" }}
         color="#e6e6e6"

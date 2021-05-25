@@ -10,7 +10,7 @@ const Header = () => {
           Grup Üç Kuaför
         </h1>
       </Link>
-      <SearchBar className="bg-primary font-serif w-50 h-3" />
+      <SearchBar className="bg-primary border border-8 border-primary font-serif w-50 h-3" />
     </div>
   );
 };
