@@ -37,24 +37,3 @@ const Employees = () => {
 };
 
 export default Employees;
-/* <div className="absolute">
-        {Users.map((employee) => (
-          <Link to="*" style={{ display: "inline-block" }}>
-            {employee.type === "man" && (
-              <Button className={`${classAtt}`} type="button">
-                {employee.userName}{" "}
-              </Button>
-            )}
-            {employee.type === "woman" && (
-              <Button className={`${classAtt}`} type="button">
-                {employee.userName}{" "}
-              </Button>
-            )}
-            {employee.type === "beauty" && (
-              <Button className={`${classAtt}`} type="button">
-                {employee.userName}{" "}
-              </Button>
-            )}
-          </Link>
-        ))}
-      </div> */

@@ -13,8 +13,22 @@ const Search = () => {
       <BackButton onClick={handleClick}>
         <IoArrowBack color="#e6e6e6" size="2em" />
       </BackButton>
-      <div className="flex justify-center items-center h-full">
-        <div className="absolute flex h-100 w-50 bg-header text-black">1</div>
+      <div className="flex space-x-48 h-5/6">
+        <div className="overflow-y-scroll grid grid-cols-1 flex-col place-items-center ml-40 w-1/6 h-full space-y-8 rounded-3xl px-3 bg-header items-center">
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary"> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+          <h1 className=" text-secondary "> Deneme</h1>
+        </div>
+
+        <div className="w-1/6 h-full rounded-3xl px-3 bg-header" />
+
+        <div className="w-1/6 h-full rounded-3xl px-3 bg-header" />
       </div>
     </>
   );
