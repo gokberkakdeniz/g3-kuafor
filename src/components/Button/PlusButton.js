@@ -1,22 +1,47 @@
 /* eslint-disable react/button-has-type */
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import DatePicker from "react-datepicker";
+import { add } from "../../store/appointment";
 import Popup from "../Popup";
 import Button from "./Button";
 import "react-datepicker/dist/react-datepicker.css";
 import ComboBox from "../ComboBox";
-import Users from "../../store/employees";
-
+import Workers from "../../store/employees";
+// state.push ta sıkıntı var
 const PlusButton = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [workerName, setWorkerName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [type, setType] = useState("");
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
   const [filteredUser, setFilteredSelect] = useState([]);
   const handeSelect = (event) => {
-    setFilteredSelect(Users.filter((user) => user.type === event.target.value));
+    setType(event.target.value);
+    setFilteredSelect(Workers.filter((user) => user.type === event.target.value));
+  };
+  const adder = useSelector((state) => state.adder);
+  const dispatch = useDispatch();
+  const onClick = () => {
+    dispatch(add({ workerId: 1, date: startDate, room: type, userId: 1 }));
+  };
+  const nameChange = (event) => {
+    setName(event.target.value);
+  };
+  const surnameChange = (event) => {
+    setSurname(event.target.value);
+  };
+  const phoneChange = (event) => {
+    setPhoneNumber(event.target.value);
+  };
+  const workerChange = (event) => {
+    setWorkerName(event.target.value);
   };
   return (
     <div
@@ -36,14 +61,17 @@ const PlusButton = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Appointment Information</p>
                   <input
+                    onChange={nameChange}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Name"
                   />
                   <input
+                    onChange={surnameChange}
                     className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Surname"
                   />
                   <input
+                    onChange={phoneChange}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Phone Number"
                   />
@@ -60,6 +88,7 @@ const PlusButton = () => {
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Worker"
                     values={filteredUser.map((user) => user.userName)}
+                    onChange={workerChange}
                   />
                   <DatePicker
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
@@ -69,7 +98,9 @@ const PlusButton = () => {
                     onChange={(date) => setStartDate(date)}
                   />
                 </div>
-                <Button className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                <Button
+                  onClick={onClick}
+                  className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
                   Create
                 </Button>
               </>

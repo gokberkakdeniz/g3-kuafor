@@ -8,7 +8,9 @@ const ComboBox = ({ className, onChange, placeholder, values }) => {
         {placeholder}
       </option>
       {values.map((value) => (
-        <option value={value}>{value}</option>
+        <option key={value} value={value}>
+          {value}
+        </option>
       ))}
     </select>
   );

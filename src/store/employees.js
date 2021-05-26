@@ -1,4 +1,4 @@
-const Users = [
+const Workers = [
   { userName: "Ahmet Yılmaz", type: "man", id: 1 },
   { userName: "Celal Işık", type: "man", id: 2 },
   { userName: "Murat Hızlı", type: "man", id: 3 },
@@ -18,4 +18,4 @@ const Users = [
   { userName: "Beyza Aydın", type: "beauty", id: 17 }
 ];
 
-export default Users;
+export default Workers;

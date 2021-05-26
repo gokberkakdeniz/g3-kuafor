@@ -6,7 +6,7 @@ import Dayzed, { useDayzed } from "dayzed";
 import { Button, BackButton } from "../../components/Button";
 import { decrease, increase } from "../../store/counter";
 import { NameDiv } from "../../components";
-import Users from "../../store/employees";
+import Workers from "../../store/employees";
 
 const Calendar = () => {
   const counter = useSelector((state) => state.counter);
