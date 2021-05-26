@@ -4,7 +4,9 @@ import Title from "../Title";
 
 const NameDiv = ({ list, style = {}, title }) => {
   return (
-    <div className="" style={style}>
+    <div
+      className="md:space-y-2 sm:space-y-1 lg:space-y-4 xl:space-y-8 2xl:space-y-16"
+      style={style}>
       <Title className="m-4" title={title} />
 
       {list.map((employee) => (

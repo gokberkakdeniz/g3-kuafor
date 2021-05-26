@@ -26,8 +26,8 @@ const Employees = () => {
       <div className="flex flex-col space-y-2 justify-center items-center">
         <h1 className="mt-2 flex text-primary text-3xl font-Open-Sans font-semibold">EMPLOYEES</h1>
         <div className="flex flex-row text-center">
-          <NameDiv list={Users.filter((user) => user.type === "woman")} title="WOMAN HAIRDRESSER" />
           <NameDiv list={Users.filter((user) => user.type === "man")} title="MAN HAIRDRESSER" />
+          <NameDiv list={Users.filter((user) => user.type === "woman")} title="WOMAN HAIRDRESSER" />
           <NameDiv list={Users.filter((user) => user.type === "beauty")} title="BEAUTY CENTER" />
         </div>
       </div>
