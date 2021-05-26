@@ -27,14 +27,14 @@ const Search = styled.div`
   display: flex;
   align-items: center;
   float: right;
-  justifycontents: flex-end;
+  justify-content: flex-start;
 `;
 
 const SearchBar = styled.input`
   padding: 1rem 1rem 1rem 3rem;
   display: flex;
   float: right;
-  justifycontents: flex-end;
+  justify-content: flex-start;
 `;
 
 export default SearchBarButton;

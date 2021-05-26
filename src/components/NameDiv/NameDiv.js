@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../Button";
+import Title from "../Title";
 
-const NameDiv = ({ list, style }) => {
+const NameDiv = ({ list, style = {}, title }) => {
   return (
-    <div className="grid grid-cols-1 absolute gap-3" style={style}>
+    <div className="" style={style}>
+      <Title className="m-4" title={title} />
+
       {list.map((employee) => (
-        <Link to="*" style={{ display: "inline-block" }}>
-          <Button
-            className="bg-primary text-primary w-40 h-10 font-Open-Sans font-semibold text-xl"
-            type="button">
+        <div key={employee.id}>
+          <Link
+            to={`employee/${employee.id}`}
+            className="bg-primary text-primary w-40 h-10 font-Open-Sans font-semibold text-xl hover:text-accent">
             {employee.userName}
-          </Button>
-        </Link>
+          </Link>
+        </div>
       ))}
     </div>
   );

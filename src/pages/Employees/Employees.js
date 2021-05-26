@@ -4,7 +4,7 @@ import { IoArrowForward } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { Button, BackButton } from "../../components/Button";
 import { decrease, increase } from "../../store/counter";
-import { NameDiv, Titles } from "../../components";
+import { NameDiv } from "../../components";
 import Users from "../../store/employees";
 
 const Employees = () => {
@@ -14,25 +14,24 @@ const Employees = () => {
   const onDecrement = () => dispatch(decrease());
 
   return (
-    <div className="flex flex-col space-y-2 justify-center items-center">
-      <Titles />
-      <div style={{ marginLeft: "auto" }}>
+    <>
+      <div className="float-right">
         <Link to="/" style={{ display: "inline-block" }}>
           <BackButton>
             <IoArrowForward color="#e6e6e6" size="2em" />
           </BackButton>
         </Link>
       </div>
-      <NameDiv style={{ marginTop: "40%" }} list={Users.filter((user) => user.type === "woman")} />
-      <NameDiv
-        style={{ marginTop: "40%", marginRight: "50%" }}
-        list={Users.filter((user) => user.type === "man")}
-      />
-      <NameDiv
-        style={{ marginTop: "40%", marginLeft: "50%" }}
-        list={Users.filter((user) => user.type === "beauty")}
-      />
-    </div>
+
+      <div className="flex flex-col space-y-2 justify-center items-center">
+        <h1 className="mt-2 flex text-primary text-3xl font-Open-Sans font-semibold">EMPLOYEES</h1>
+        <div className="flex flex-row text-center">
+          <NameDiv list={Users.filter((user) => user.type === "woman")} title="WOMAN HAIRDRESSER" />
+          <NameDiv list={Users.filter((user) => user.type === "man")} title="MAN HAIRDRESSER" />
+          <NameDiv list={Users.filter((user) => user.type === "beauty")} title="BEAUTY CENTER" />
+        </div>
+      </div>
+    </>
   );
 };
 
