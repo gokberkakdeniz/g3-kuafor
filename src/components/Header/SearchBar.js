@@ -3,7 +3,7 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import styled from "styled-components";
 
-const SearchBarButton = ({ className, onClick, style, children }) => {
+const SearchBarButton = ({ className, onChange, style, children }) => {
   const history = useHistory();
   const location = useLocation();
   const handleClick = () => {
@@ -17,7 +17,13 @@ const SearchBarButton = ({ className, onClick, style, children }) => {
         color="#e6e6e6"
         size="1.5em"
       />
-      <SearchBar className={className} id="search-bar" type="text" placeholder="Search" />
+      <SearchBar
+        onChange={onChange}
+        className={className}
+        id="search-bar"
+        type="text"
+        placeholder="Search"
+      />
     </Search>
   );
 };

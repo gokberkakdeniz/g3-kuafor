@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import DatePicker from "react-datepicker";
@@ -26,7 +26,7 @@ const PlusButton = () => {
     setType(event.target.value);
     setFilteredSelect(Workers.filter((user) => user.type === event.target.value));
   };
-  const adder = useSelector((state) => state.adder);
+
   const dispatch = useDispatch();
   const onClick = () => {
     dispatch(add({ workerId: 1, date: startDate, room: type, userId: 1 }));

@@ -1,13 +1,20 @@
 import Appointments from "../appointments";
 import { ADD, REMOVE } from "./appointments.actions";
 
-const appointmentReducer = (state = Appointments, action) => {
-  console.log(action.data);
+const initialState = {
+  workerId: 0,
+  date: new Date(),
+  type: "",
+  userId: 0
+};
+
+const appointmentReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD:
-      return state.push(action.data);
+      console.log(action.data);
+      return { ...action.data };
     case REMOVE:
-      return state.reduce(action.data);
+      return {};
     default:
       return state;
   }
