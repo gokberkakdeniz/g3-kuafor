@@ -15,8 +15,8 @@ const PlusButton = () => {
     setIsOpen(!isOpen);
   };
   const [filteredUser, setFilteredSelect] = useState([]);
-  const handeSelect = () => {
-    setFilteredSelect(Users.filter((user) => user.type === "man"));
+  const handeSelect = (event) => {
+    setFilteredSelect(Users.filter((user) => user.type === event.target.value));
   };
   return (
     <div
@@ -33,34 +33,36 @@ const PlusButton = () => {
           <Popup
             content={
               <>
-                <div>
+                <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Appointment Information</p>
-                  <input className="px-2 rounded-3xl bg-popup text-secondary" placeholder="Name" />
                   <input
-                    className=" px-2 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    placeholder="Name"
+                  />
+                  <input
+                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Surname"
                   />
                   <input
-                    className="px-2 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Phone Number"
                   />
                 </div>
-                <div>
+                <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Worker Information</p>
                   <ComboBox
-                    className="px-2 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Type"
                     values={["man", "woman", "beauty"]}
-                    onClick={handeSelect}
+                    onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 rounded-3xl bg-popup text-secondary"
-                    placeholder="Type"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    placeholder="Worker"
                     values={filteredUser.map((user) => user.userName)}
-                    onClick={handeSelect}
                   />
                   <DatePicker
-                    className="px-2 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     showTimeSelect
                     dateFormat="Pp"
                     selected={startDate}
