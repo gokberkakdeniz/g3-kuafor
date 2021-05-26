@@ -5,3 +5,4 @@ export { default as BackButton } from "./Button/BackButton";
 export { default as PlusButton } from "./Button/PlusButton";
 export { default as Titles } from "./Title/Titles";
 export { default as NameDiv } from "./NameDiv";
+export { default as ComboBox } from "./ComboBox";

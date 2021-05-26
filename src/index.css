@@ -10,6 +10,7 @@
   --color-text-primary: #e6e6e6;    /* koyu arkaplan için beyaz yazı */
   --color-text-secondary: #545456;  /* açık arkaplan için siyah yazı  */
   --color-accent: #1096d1;          /* mavi */
+  --color-bg-popup: #C4C4C4;        /*Popup elementleri için arka plan*/
 }
 
 * {
@@ -23,6 +24,10 @@
 
   .bg-header {
     background-color: var(--color-text-primary);
+  }
+
+  .bg-popup {
+    background-color: var(--color-bg-popup);
   }
   
   .text-primary {
