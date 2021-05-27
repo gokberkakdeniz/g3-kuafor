@@ -27,7 +27,7 @@ const saveState = (state) => {
 
 const persistedStore = loadState();
 
-const store = createStore(rootReducer, persistedStore);
+const store = createStore(rootReducer, persistedStore, composeWithDevTools());
 
 store.subscribe(() => {
   saveState(store.getState());

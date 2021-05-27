@@ -1,9 +1,19 @@
+import { NEW } from "./appointment.types";
+
 export const ADD = "ADD";
 export const REMOVE = "REMOVE";
 
-export const add = (appointment) => ({
+export const add = (workerId, Name, Surname, PhoneNumber, Date, RoomType) => ({
   type: ADD,
-  data: appointment
+  data: {
+    workerId,
+    Name,
+    Surname,
+    PhoneNumber,
+    Type: NEW,
+    Date,
+    RoomType
+  }
 });
 
 export const remove = (appointment) => ({

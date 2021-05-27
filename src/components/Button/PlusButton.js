@@ -10,11 +10,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import ComboBox from "../ComboBox";
 import Workers from "../../store/employees";
 
-// state.push ta sıkıntı var
 const PlusButton = () => {
-  const { storage } = useSelector((state) => state.adder);
+  const now = new Date();
+  // eslint-disable-next-line prefer-const
+  let afterThreeMonts = new Date();
+  afterThreeMonts.setDate(afterThreeMonts.getDay() + 90);
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(now);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [workerName, setWorkerName] = useState("");
@@ -31,15 +33,13 @@ const PlusButton = () => {
 
   const dispatch = useDispatch();
   const onClick = () => {
+    console.log(String(startDate));
     const foundWorker = Workers.find((worker) => worker.userName === workerName);
     if (foundWorker === undefined) return;
-    dispatch(add({ workerId: foundWorker.id, date: startDate, room: type, userId: 1 }));
-    storage.subscribe();
+    dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
   };
   return (
-    <div
-      style={{ bottom: "0", right: "0" }}
-      className="absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
+    <div className="bottom-0 right-0 absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
       <Button
         onClick={togglePopup}
         className="flex flex-col items-center bg-accent w-12 h-12 rounded-3xl justify-center"
@@ -54,21 +54,18 @@ const PlusButton = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Appointment Information</p>
                   <input
-                    required
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Name"
                   />
                   <input
-                    required
                     value={surname}
                     onChange={(event) => setSurname(event.target.value)}
                     className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Surname"
                   />
                   <input
-                    required
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
@@ -78,14 +75,12 @@ const PlusButton = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Worker Information</p>
                   <ComboBox
-                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Type"
                     values={["man", "woman", "beauty"]}
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Worker"
                     value={workerName}
@@ -93,9 +88,12 @@ const PlusButton = () => {
                     onChange={(event) => setWorkerName(event.target.value)}
                   />
                   <DatePicker
-                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     showTimeSelect
+                    required
+                    filterDate={(date) => !String(date).includes("Mo") && date < afterThreeMonts}
+                    placeholderText="Date"
+                    minDate={now}
                     dateFormat="Pp"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}

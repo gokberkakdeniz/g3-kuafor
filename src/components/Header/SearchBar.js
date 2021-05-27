@@ -1,46 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import clsx from "clsx";
+import { set } from "../../store/searchword";
 
-const SearchBarButton = ({ className, onChange, style, children }) => {
+const SearchBarButton = ({ className, style, children }) => {
   const history = useHistory();
   const location = useLocation();
-  const handleClick = () => {
-    if (location.pathname === "/search") return;
-    history.push("/search");
+
+  const dispatch = useDispatch();
+  const handleKey = (event) => {
+    if (event.key === "Enter") {
+      dispatch(set(event.target.value));
+      document.getElementById("search-bar").value = "";
+      if (location.pathname === "/search") return;
+      history.push("/search");
+    }
   };
   return (
-    <Search style={style} onClick={handleClick}>
-      <IoIosSearch
-        style={{ marginLeft: "1rem", position: "absolute" }}
-        color="#e6e6e6"
-        size="1.5em"
-      />
-      <SearchBar
-        onChange={onChange}
-        className={className}
+    <div className="relative flex float-right flex-start items-center" style={style}>
+      <IoIosSearch className="ml-4 absolute" color="#e6e6e6" size="1.5em" />
+      <input
+        className={clsx("p-4 px-12 flex float-right flex-start", className)}
+        onKeyPress={handleKey}
         id="search-bar"
         type="text"
         placeholder="Search"
       />
-    </Search>
+    </div>
   );
 };
-
-const Search = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-  float: right;
-  justify-content: flex-start;
-`;
-
-const SearchBar = styled.input`
-  padding: 1rem 1rem 1rem 3rem;
-  display: flex;
-  float: right;
-  justify-content: flex-start;
-`;
 
 export default SearchBarButton;

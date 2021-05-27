@@ -2,19 +2,18 @@ import Appointments from "../appointments";
 import { ADD, REMOVE } from "./appointments.actions";
 
 const initialState = {
-  workerId: 0,
-  date: new Date(),
-  type: "",
-  userId: 0
+  appointments: []
 };
 
 const appointmentReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD:
-      console.log(action.data);
-      return { ...action.data };
+      return {
+        ...state,
+        appointments: [...state.appointments, { id: state.appointments.length, ...action.data }]
+      };
     case REMOVE:
-      return {};
+      return {}; // TODO add remove function add
     default:
       return state;
   }
