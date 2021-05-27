@@ -26,8 +26,11 @@ const saveState = (state) => {
 };
 
 const persistedStore = loadState();
+
 const store = createStore(rootReducer, persistedStore);
+
 store.subscribe(() => {
   saveState(store.getState());
 });
+
 export default store;

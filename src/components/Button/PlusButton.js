@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import DatePicker from "react-datepicker";
@@ -9,8 +9,10 @@ import Button from "./Button";
 import "react-datepicker/dist/react-datepicker.css";
 import ComboBox from "../ComboBox";
 import Workers from "../../store/employees";
+
 // state.push ta sıkıntı var
 const PlusButton = () => {
+  const { storage } = useSelector((state) => state.adder);
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [name, setName] = useState("");
@@ -29,19 +31,10 @@ const PlusButton = () => {
 
   const dispatch = useDispatch();
   const onClick = () => {
-    dispatch(add({ workerId: 1, date: startDate, room: type, userId: 1 }));
-  };
-  const nameChange = (event) => {
-    setName(event.target.value);
-  };
-  const surnameChange = (event) => {
-    setSurname(event.target.value);
-  };
-  const phoneChange = (event) => {
-    setPhoneNumber(event.target.value);
-  };
-  const workerChange = (event) => {
-    setWorkerName(event.target.value);
+    const foundWorker = Workers.find((worker) => worker.userName === workerName);
+    if (foundWorker === undefined) return;
+    dispatch(add({ workerId: foundWorker.id, date: startDate, room: type, userId: 1 }));
+    storage.subscribe();
   };
   return (
     <div
@@ -61,17 +54,23 @@ const PlusButton = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Appointment Information</p>
                   <input
-                    onChange={nameChange}
+                    required
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Name"
                   />
                   <input
-                    onChange={surnameChange}
+                    required
+                    value={surname}
+                    onChange={(event) => setSurname(event.target.value)}
                     className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Surname"
                   />
                   <input
-                    onChange={phoneChange}
+                    required
+                    value={phoneNumber}
+                    onChange={(event) => setPhoneNumber(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Phone Number"
                   />
@@ -79,18 +78,22 @@ const PlusButton = () => {
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Worker Information</p>
                   <ComboBox
+                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Type"
                     values={["man", "woman", "beauty"]}
                     onChange={handeSelect}
                   />
                   <ComboBox
+                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Worker"
+                    value={workerName}
                     values={filteredUser.map((user) => user.userName)}
-                    onChange={workerChange}
+                    onChange={(event) => setWorkerName(event.target.value)}
                   />
                   <DatePicker
+                    required
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     showTimeSelect
                     dateFormat="Pp"
@@ -99,6 +102,7 @@ const PlusButton = () => {
                   />
                 </div>
                 <Button
+                  type="submit"
                   onClick={onClick}
                   className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
                   Create

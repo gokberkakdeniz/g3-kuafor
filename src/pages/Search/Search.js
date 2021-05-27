@@ -25,7 +25,7 @@ const Search = () => {
         <div className="overflow-y-scroll grid grid-cols-1 flex-col place-items-center ml-40 w-1/6 h-full space-y-8 rounded-3xl px-3 bg-header items-center">
           {Workers.map(
             (worker) =>
-              worker.userName.toLowerCase().includes(value.toLowerCase()) && (
+              worker.userName.toLowerCase().includes(value === null ? "" : value.toLowerCase()) && (
                 <h1 className=" text-secondary">{worker.userName}</h1>
               )
           )}
