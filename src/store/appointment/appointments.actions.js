@@ -1,7 +1,8 @@
-import { NEW } from "./appointment.types";
+import { NEW, CANCELED } from "./appointment.types";
 
 export const ADD = "ADD";
-export const REMOVE = "REMOVE";
+export const CANCEL = "CANCEL";
+export const UPDATE = "UPDATE";
 
 export const add = (workerId, Name, Surname, PhoneNumber, Date, RoomType) => ({
   type: ADD,
@@ -16,7 +17,18 @@ export const add = (workerId, Name, Surname, PhoneNumber, Date, RoomType) => ({
   }
 });
 
-export const remove = (appointment) => ({
-  type: REMOVE,
-  data: appointment
+export const updateAppointment = (id, workerId, PhoneNumber, Date, RoomType) => ({
+  type: UPDATE,
+  ID: id,
+  data: {
+    workerId,
+    PhoneNumber,
+    Date,
+    RoomType
+  }
+});
+
+export const cancelAppointment = (id) => ({
+  type: CANCEL,
+  ID: id
 });

@@ -11,6 +11,7 @@
   --color-text-secondary: #545456;  /* açık arkaplan için siyah yazı  */
   --color-accent: #1096d1;          /* mavi */
   --color-bg-popup: #C4C4C4;        /*Popup elementleri için arka plan*/
+  --color-bg-cancel: #F05252;       /*Cancel butonu rengi*/
 }
 
 html, body {
@@ -25,7 +26,9 @@ html, body {
   .bg-primary {
     background-color: var(--color-bg-primary);
   }
-
+  .bg-cancel{
+    background-color: var(--color-bg-cancel);
+  }
   .bg-header {
     background-color: var(--color-text-primary);
   }
@@ -66,4 +69,4 @@ html, body {
     border-color: var(--color-accent);
   }
 
-}
+} 

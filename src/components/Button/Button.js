@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
-const Button = ({ className, onClick, type, children }) => {
+const Button = ({ className, onClick, type, children, id }) => {
   return (
     <button
+      id={id}
       // eslint-disable-next-line react/button-has-type
       type={type}
       className={className}
