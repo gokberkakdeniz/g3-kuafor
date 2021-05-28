@@ -1,124 +1,141 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import Dayzed, { useDayzed } from "dayzed";
+import { Link, useHistory } from "react-router-dom";
+import dayjs from "dayjs";
 import { Button, BackButton } from "../../components/Button";
-import { decrease, increase } from "../../store/counter";
 import { NameDiv } from "../../components";
-import Workers from "../../store/employees";
+// 7 - 24
+
+function getWeekDays(date) {
+  const d = dayjs(date).set("millisecond", 0).set("second", 0).set("minute", 0).set("hour", 0);
+  const startOfWeek = d.subtract(d.day(), "day");
+
+  return [0, 1, 3, 4, 5, 6].map((i) => startOfWeek.add(i, "day"));
+}
+
+function getSlots(date, startHour, endHour, lengthHour) {
+  const result = [];
+
+  for (let index = startHour; index < endHour; index += lengthHour) {
+    const start = date.add(index, "hours");
+    const end = start.add(lengthHour * 60, "minute");
+    result.push([start, end]);
+  }
+
+  return result;
+}
+
+function getWeekRangeText(date) {
+  const d = dayjs(date).set("millisecond", 0).set("second", 0).set("minute", 0).set("hour", 0);
+
+  const start = d.subtract(d.day(), "day");
+  const end = start.add(6, "day");
+
+  return `${d.date()} ${
+    start.month() === end.month() ? "" : start.format("MMMM")
+  } - ${end.date()} ${end.format("MMMM")}`;
+}
+
+function useWeeklySchedule(from, to, length) {
+  const [days, setDays] = useState(getWeekDays(Date.now()));
+
+  const daySlots = useMemo(() => {
+    return days.map((day) => getSlots(day, from, to, length));
+  }, [days, from, to, length]);
+
+  const back = () => setDays(getWeekDays(days[0].subtract(days[0].day() + 1, "day")));
+  const next = () => setDays(getWeekDays(days[0].add(days[0].day() + 7, "day")));
+
+  return [
+    days.map((day, i) => ({ day, slots: daySlots[i] })),
+    getWeekRangeText(days[0]),
+    back,
+    next
+  ];
+}
 
 const Calendar = () => {
-  const counter = useSelector((state) => state.counter);
-  const dispatch = useDispatch();
-  const onIncrement = () => dispatch(increase());
-  const onDecrement = () => dispatch(decrease());
-  const monthNamesShort = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
-  const weekdayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const [days, weekText, back, next] = useWeeklySchedule(7, 24, 0.5);
+  const history = useHistory();
+  const handleSlotClick = (...args) => console.log(...args);
 
-  function Malendar({ calendars, getBackProps, getForwardProps, getDateProps }) {
-    if (calendars.length) {
-      return (
-        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
+  return (
+    <div className="p-4">
+      <div className="ml-auto" style={{ display: "inline-block" }}>
+        <BackButton onClick={() => history.push("/")}>
+          <IoArrowBack color="#e6e6e6" size="2em" />
+        </BackButton>
+      </div>
+
+      <div>
+        <div
+          className="flex flex-row space-x-4 justify-end items-center mx-auto pb-4"
+          style={{ width: "92.5rem" }}>
           <div>
-            <button type="button" {...getBackProps({ calendars })}>
-              Back
-            </button>
-            <button type="button" {...getForwardProps({ calendars })}>
-              Next
-            </button>
+            <BackButton onClick={back} small>
+              <IoArrowBack color="#e6e6e6" size="1.5em" />
+            </BackButton>
           </div>
-          {calendars.map((calendar) => (
-            <div
-              key={`${calendar.month}${calendar.year}`}
-              style={{
-                display: "inline-block",
-                width: "50%",
-                padding: "0 10px 30px",
-                boxSizing: "border-box"
-              }}>
-              <div>
-                {monthNamesShort[calendar.month]} {calendar.year}
+          <div>
+            <span className="">{weekText}</span>
+          </div>
+          <div>
+            <BackButton onClick={next} small>
+              <IoArrowForward color="#e6e6e6" size="1.5em" />
+            </BackButton>
+          </div>
+        </div>
+        <div className="flex flex-row space-x-2 justify-center items-center">
+          {days.map(({ day, slots }) => (
+            <div key={`col-${day.unix()}`} className="flex flex-col w-60">
+              <div className="bg-popup text-center py-2">
+                <span className="font-black text-black">{day.format("dddd")}</span>
+                <br />
+                <span className="text-black text-sm">{day.format("DD MMMM YYYY")}</span>
               </div>
-              {weekdayNamesShort.map((weekday) => (
-                <div
-                  key={`${calendar.month}${calendar.year}${weekday}`}
-                  style={{
-                    display: "inline-block",
-                    width: "calc(100% / 7)",
-                    border: "none",
-                    background: "transparent"
-                  }}>
-                  {weekday}
-                </div>
-              ))}
-              {calendar.weeks.map((week, weekIndex) =>
-                week.map((dateObj, index) => {
-                  const key = `${calendar.month}${calendar.year}${weekIndex}${index}`;
-                  if (!dateObj) {
-                    return (
-                      <div
-                        key={key}
-                        style={{
-                          display: "inline-block",
-                          width: "calc(100% / 7)",
-                          border: "none",
-                          background: "transparent"
-                        }}
-                      />
-                    );
-                  }
-                  const { date, selected, selectable, today } = dateObj;
-                  let background = today ? "cornflowerblue" : "";
-                  background = selected ? "purple" : background;
-                  background = !selectable ? "teal" : background;
-                  return (
-                    <button
-                      type="button"
-                      style={{
-                        display: "inline-block",
-                        width: "calc(100% / 7)",
-                        border: "none",
-                        background: "black"
-                      }}
-                      key={key}
-                      {...getDateProps({ dateObj })}>
-                      {selectable ? date.getDate() : "X"}
-                    </button>
-                  );
-                })
-              )}
+
+              <div className="flex flex-col my-4 overflow-y-auto overflow-x-hidden h-96">
+                {slots.map(([start, end]) => (
+                  <div
+                    key={`slot-${start.unix()}`}
+                    className="bg-popup text-center w-full py-2 border-b-2 border-gray-500"
+                    role="button"
+                    tabIndex={0}
+                    aria-hidden="true"
+                    onClick={() => handleSlotClick(day, start, end)}
+                    title="Click to reserve">
+                    <span className="font-black text-black">sdfsdf</span>
+                    <br />
+                    <span className="text-black text-sm">
+                      {`${start.format("HH:mm")} - ${end.format("HH:mm")}`}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-      );
-    }
-    return null;
-  }
+      </div>
 
-  return (
-    <>
-      <Link to="/" className="ml-auto" style={{ display: "inline-block" }}>
-        <BackButton>
-          <IoArrowBack color="#e6e6e6" size="2em" />
-        </BackButton>
-      </Link>
-
-      <div className="flex flex-col space-y-2 justify-center items-center">CALENDAR</div>
-    </>
+      <div className="absolute left-8 bottom-8">
+        <div className="flex flex-row space-x-4 items-center mt-auto" style={{ width: "92.5rem" }}>
+          <div>
+            <BackButton onClick={() => {}}>
+              <IoArrowBack color="#e6e6e6" size="2em" />
+            </BackButton>
+          </div>
+          <div>
+            <span className="">Man Hairdresser (Not implemented)</span>
+          </div>
+          <div>
+            <BackButton onClick={() => {}}>
+              <IoArrowForward color="#e6e6e6" size="2em" />
+            </BackButton>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

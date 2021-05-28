@@ -2,7 +2,7 @@ import { Header, Main } from "./components";
 
 function App({ children }) {
   return (
-    <div className="h-screen w-screen bg-primary">
+    <div className="h-screen w-full">
       <Header />
       <Main>{children}</Main>
     </div>

@@ -13,6 +13,10 @@
   --color-bg-popup: #C4C4C4;        /*Popup elementleri için arka plan*/
 }
 
+html, body {
+  @apply bg-primary;
+}
+
 * {
   color: var(--color-text-primary);
 }
