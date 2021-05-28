@@ -19,13 +19,26 @@ const PlusButton = () => {
   let afterThreeMonts = new Date();
   afterThreeMonts.setDate(afterThreeMonts.getDay() + 90);
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, setStartDate] = useState(now);
+  const [startDate, setStartDate] = useState();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [workerName, setWorkerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [type, setType] = useState("");
+  const [isDisabled, setDisabled] = useState(true);
+  function setValues() {
+    setName("");
+    setSurname("");
+    setPhoneNumber("");
+    setStartDate();
+    setFilteredSelect([]);
+    setDisabled(true);
+  }
+
   const togglePopup = () => {
+    if (isOpen) {
+      setValues();
+    }
     setIsOpen(!isOpen);
   };
   const [filteredUser, setFilteredSelect] = useState([]);
@@ -45,6 +58,18 @@ const PlusButton = () => {
   };
   const tempAppointments = useSelector((state) => state.adder.appointments);
   const arrayAppoint = tempAppointments === undefined ? [] : tempAppointments;
+
+  const handleWorkerSelect = (event) => {
+    setDisabled(false);
+    setWorkerName(event.target.value);
+  };
+
+  function findWorkerId() {
+    const found = Workers.find((worker) => worker.userName === workerName);
+    if (found === undefined) return -1;
+    return found.id;
+  }
+
   return (
     <div className="bottom-0 right-0 absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
       <Button
@@ -92,13 +117,14 @@ const PlusButton = () => {
                     placeholder="Worker"
                     value={workerName}
                     values={filteredUser.map((user) => user.userName)}
-                    onChange={(event) => setWorkerName(event.target.value)}
+                    onChange={handleWorkerSelect}
                   />
                   <DateSelector
+                    handleDisable={isDisabled}
                     handleDate={(date) => setStartDate(date)}
                     startDate={startDate}
                     now={now}
-                    bannedDateList={mapToDates(arrayAppoint)}
+                    bannedDateList={mapToDates(arrayAppoint, findWorkerId())}
                   />
                 </div>
                 <Button

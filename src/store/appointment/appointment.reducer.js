@@ -5,13 +5,17 @@ const initialState = {
 };
 
 function findIndex(index, list) {
-  for (let i = 0; i < list.length; i + 1) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < list.length; i++) {
     if (list[i].id === index) {
       return i;
     }
   }
   return -1;
 }
+
+// TODO yeni eklenen date sıkıntı
+// TODO saerch ekranı flex ekle
 
 function findEmptyIndex(length, list) {
   let i = length + 1;

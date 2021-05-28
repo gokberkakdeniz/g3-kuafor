@@ -60,9 +60,19 @@ const Search = () => {
     }
   }
 
+  function setInitialValues() {
+    setName("");
+    setSurname("");
+    setPhoneNumber("");
+    setStartDate();
+    setFilteredSelect([]);
+  }
+
   const togglePopup = (event) => {
     if (!isOpen) {
       setValues(parseInt(event.target.id, 10));
+    } else {
+      setInitialValues();
     }
     setIsOpen(!isOpen);
   };
@@ -85,13 +95,15 @@ const Search = () => {
     dispatch(cancelAppointment(appointmentId));
     togglePopup();
   };
+
+  const handleDisabled = () => {};
   return (
     <>
       <BackButton onClick={handleClick}>
         <IoArrowBack color="#e6e6e6" size="2em" />
       </BackButton>
       <div className="flex space-x-48 h-5/6">
-        <div className="text-xs overflow-y-scroll grid grid-cols-1 flex-col place-items-center ml-40 w-1/6 h-full space-y-8 rounded-3xl px-3 bg-header items-center">
+        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
           {arrayAppoint.map(
             (appointment) =>
               appointment.Type === NEW &&
@@ -99,7 +111,7 @@ const Search = () => {
                 searchWord === null ? "" : searchWord.toLowerCase()
               ) && (
                 <Button
-                  className=" text-secondary"
+                  className=" text-secondary p-2"
                   id={appointment.id}
                   type="button"
                   onClick={togglePopup}>
@@ -112,19 +124,19 @@ const Search = () => {
               )
           )}
         </div>
-        <div className="overflow-y-scroll grid grid-cols-1 flex-col place-items-center ml-40 w-1/6 h-full space-y-8 rounded-3xl px-3 bg-header items-center">
+        <div className="overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
           {Workers.map(
             (worker) =>
               worker.userName
                 .toLowerCase()
                 .includes(searchWord === null ? "" : searchWord.toLowerCase()) && (
-                <h1 key={worker.userName} className=" text-secondary">
+                <h1 key={worker.userName} className=" text-secondary p-2">
                   {worker.userName}
                 </h1>
               )
           )}
         </div>
-        <div className="text-xs overflow-y-scroll grid grid-cols-1 flex-col place-items-center ml-40 w-1/6 h-full space-y-8 rounded-3xl px-3 bg-header items-center" />
+        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center" />
       </div>
       <div>
         {isOpen && (
