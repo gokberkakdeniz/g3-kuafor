@@ -11,9 +11,7 @@ function validateDate(oldDate, selectedDate) {
   if (selectedDate === undefined) return false;
   const tempOld = new Date(oldDate);
   const tempNew = new Date(selectedDate);
-  const hours = tempOld.getHours();
-  const minutes = tempOld.getMinutes();
-  return tempNew.getHours() > hours || tempNew.getMinutes() > minutes;
+  return tempOld.getTime() < tempNew.getTime();
 }
 
 export function validateAppointment(phoneNumber, oldDate, newDate) {

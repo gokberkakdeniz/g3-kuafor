@@ -12,7 +12,6 @@ const DateSelector = ({ handleDisable, handleDate, startDate, bannedDateList, no
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
     const month = dateObj.getMonth();
-    console.log(bannedDateList);
     const day = dateObj.getDay();
     const found = bannedDateList.find(
       (obj) =>
