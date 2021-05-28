@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const DateSelector = ({ handleDate, startDate, bannedDateList, now }) => {
   const afterThreeMonts = new Date(new Date().setDate(new Date().getDate() + 90));
   function checkAvailability(dateObj) {
+    if (bannedDateList === undefined) return true;
     const hours = dateObj.getHours();
     const minutes = dateObj.getMinutes();
     const month = dateObj.getMonth();
@@ -23,8 +24,7 @@ const DateSelector = ({ handleDate, startDate, bannedDateList, now }) => {
   const filterPassedTime = (time) => {
     const selectedDate = new Date(time);
     const hours = selectedDate.getHours();
-    const minutes = selectedDate.getMinutes();
-    const endTime = hours < 23 || (hours === 23 && minutes !== 30);
+    const endTime = hours <= 23;
     const startTime = hours >= 7;
     return checkAvailability(selectedDate) && endTime && startTime;
   };

@@ -4,12 +4,13 @@ import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, BackButton } from "../../components/Button";
 import Workers from "../../store/employees";
-import { parseToFormat, parseToHour } from "../../helper";
+import { parseToFormat, parseToHour, mapToDates } from "../../helper";
 import { NEW, cancelAppointment, updateAppointment } from "../../store/appointment";
 import "react-datepicker/dist/react-datepicker.css";
 import Popup from "../../components/Popup";
 import ComboBox from "../../components/ComboBox";
-import DateSelector from "./DateSelector";
+import DateSelector from "../../components/DateSelector";
+import { validateAppointment } from "../../validator";
 
 const Search = () => {
   const nowDate = new Date();
@@ -71,12 +72,11 @@ const Search = () => {
     setFilteredSelect(Workers.filter((user) => user.type === event.target.value));
   };
 
-  function mapToDates() {
-    return arrayAppoint.map((appointment) => new Date(appointment.Date));
-  }
   const onClick = () => {
     const foundWorker = findWorker(-1, workerName);
     if (foundWorker === undefined) return;
+    const result = validateAppointment(phoneNumber, nowDate, startDate);
+    if (!result) return;
     dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
     togglePopup();
   };
@@ -159,7 +159,7 @@ const Search = () => {
                     handleDate={(date) => setStartDate(date)}
                     startDate={startDate}
                     now={nowDate}
-                    bannedDateList={mapToDates()}
+                    bannedDateList={mapToDates(arrayAppoint)}
                   />
                 </div>
                 <Button

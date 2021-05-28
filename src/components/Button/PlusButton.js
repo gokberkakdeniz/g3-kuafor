@@ -9,6 +9,9 @@ import Button from "./Button";
 import "react-datepicker/dist/react-datepicker.css";
 import ComboBox from "../ComboBox";
 import Workers from "../../store/employees";
+import DateSelector from "../DateSelector";
+import { mapToDates } from "../../helper";
+import { validateAppointment } from "../../validator";
 
 const PlusButton = () => {
   const now = new Date();
@@ -33,11 +36,15 @@ const PlusButton = () => {
 
   const dispatch = useDispatch();
   const onClick = () => {
-    console.log(String(startDate));
     const foundWorker = Workers.find((worker) => worker.userName === workerName);
     if (foundWorker === undefined) return;
+    const result = validateAppointment(phoneNumber, now, startDate);
+    if (!result) return;
     dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
+    togglePopup();
   };
+  const tempAppointments = useSelector((state) => state.adder.appointments);
+  const arrayAppoint = tempAppointments === undefined ? [] : tempAppointments;
   return (
     <div className="bottom-0 right-0 absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
       <Button
@@ -87,16 +94,11 @@ const PlusButton = () => {
                     values={filteredUser.map((user) => user.userName)}
                     onChange={(event) => setWorkerName(event.target.value)}
                   />
-                  <DatePicker
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
-                    showTimeSelect
-                    required
-                    filterDate={(date) => !String(date).includes("Mo") && date < afterThreeMonts}
-                    placeholderText="Date"
-                    minDate={now}
-                    dateFormat="Pp"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
+                  <DateSelector
+                    handleDate={(date) => setStartDate(date)}
+                    startDate={startDate}
+                    now={now}
+                    bannedDateList={mapToDates(arrayAppoint)}
                   />
                 </div>
                 <Button

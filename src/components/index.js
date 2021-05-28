@@ -6,3 +6,4 @@ export { default as PlusButton } from "./Button/PlusButton";
 export { default as Title } from "./Title";
 export { default as NameDiv } from "./NameDiv";
 export { default as ComboBox } from "./ComboBox";
+export { default as DateSelector } from "./DateSelector";

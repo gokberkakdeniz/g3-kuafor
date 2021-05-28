@@ -4,14 +4,34 @@ const initialState = {
   appointments: []
 };
 
+function findIndex(index, list) {
+  for (let i = 0; i < list.length; i + 1) {
+    if (list[i].id === index) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+function findEmptyIndex(length, list) {
+  let i = length + 1;
+  while (list[i] !== undefined) {
+    i += 1;
+  }
+  return i;
+}
+
 const appointmentReducer = (state = initialState, action) => {
   let listAppointments = state.appointments;
+  let index = 0;
+  let empty = 0;
   if (listAppointments === undefined) listAppointments = [];
   switch (action.type) {
     case ADD:
+      empty = findEmptyIndex(listAppointments.length, listAppointments);
       return {
         ...state,
-        appointments: [...listAppointments, { id: listAppointments.length, ...action.data }]
+        appointments: [...listAppointments, { id: empty, ...action.data }]
       };
     case CANCEL:
       if (listAppointments.length === 1) {
@@ -20,26 +40,27 @@ const appointmentReducer = (state = initialState, action) => {
           appointments: []
         };
       }
+      index = findIndex(action.ID, listAppointments);
+      if (index < 0) return { ...state };
       return {
         ...state,
-        appointments: [
-          ...state.appointments.slice(0, action.ID),
-          ...state.appointments.slice(action.ID + 1)
-        ]
+        appointments: [...listAppointments.slice(0, index), ...listAppointments.slice(index + 1)]
       };
     case UPDATE:
+      index = findIndex(action.ID, listAppointments);
+      if (index < 0) return { ...state };
       return {
         ...state,
         appointments: [
-          ...state.appointments.slice(0, action.ID),
+          ...listAppointments.slice(0, index),
           {
-            ...state.appointments[action.ID],
+            ...listAppointments[index],
             RoomType: action.data.RoomType,
             workerId: action.data.workerId,
             PhoneNumber: action.data.PhoneNumber,
             Date: action.data.Date
           },
-          ...state.appointments.slice(action.ID + 1)
+          ...listAppointments.slice(index + 1)
         ]
       };
     default:
