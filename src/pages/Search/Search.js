@@ -79,7 +79,7 @@ const Search = () => {
 
   const handeSelect = (event) => {
     setType(event.target.value);
-    setFilteredSelect(Workers.filter((user) => user.type === event.target.value));
+    setFilteredSelect(Workers.filter((user) => user.type.includes(event.target.value)));
   };
 
   const onClick = () => {
@@ -174,7 +174,7 @@ const Search = () => {
                   <ComboBox
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder={type}
-                    values={["man", "woman", "beauty"]}
+                    values={["Man Hairdresser", "Woman Hairdresser", "Laser", "Skin Care"]}
                     onChange={handeSelect}
                   />
                   <ComboBox

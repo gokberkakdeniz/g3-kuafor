@@ -15,7 +15,7 @@ function findWorker(workers, id) {
 function mapWorkerToSpan(worker, bannedIds, type) {
   const found = bannedIds.find((id) => id === worker.id);
   if (found !== undefined) return null;
-  if (!type.toLowerCase().includes(worker.type)) return null;
+  if (!type.includes(worker.type)) return null;
   return (
     <>
       <span className="text-black text-sm">{worker.userName}</span>

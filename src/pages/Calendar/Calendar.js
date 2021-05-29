@@ -71,7 +71,10 @@ const Calendar = () => {
     if (current === rooms.length - 1) setCurrent(0);
     else setCurrent(current + 1);
   };
-  const handleBackward = () => {};
+  const handleBackward = () => {
+    if (current === 0) setCurrent(rooms.length - 1);
+    else setCurrent(current - 1);
+  };
 
   return (
     <div className="p-4">
@@ -143,7 +146,7 @@ const Calendar = () => {
               <IoArrowBack color="#e6e6e6" size="2em" />
             </BackButton>
           </div>
-          <div>
+          <div className="w-40 flex justify-center">
             <span className="">{rooms[current]}</span>
           </div>
           <div>
