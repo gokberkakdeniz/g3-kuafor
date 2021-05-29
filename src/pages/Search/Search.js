@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, BackButton } from "../../components/Button";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
-import { NEW, cancelAppointment, updateAppointment } from "../../store/appointment";
+import { NEW, DONE, cancelAppointment, updateAppointment } from "../../store/appointment";
 import "react-datepicker/dist/react-datepicker.css";
 import Popup from "../../components/Popup";
 import ComboBox from "../../components/ComboBox";
@@ -136,7 +136,23 @@ const Search = () => {
               )
           )}
         </div>
-        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center" />
+        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
+          {arrayAppoint.map(
+            (appointment) =>
+              appointment.Type === DONE &&
+              appointment.Name.toLowerCase().includes(
+                searchWord === null ? "" : searchWord.toLowerCase()
+              ) && (
+                <div className=" text-secondary p-2">
+                  {`${parseToFormat(appointment.Date)}----------${parseToHour(appointment.Date)}`}
+                  <br />
+                  {`${appointment.Name} ${appointment.Surname}`}
+                  <br />
+                  {findWorker(appointment.workerId, "").userName}
+                </div>
+              )
+          )}
+        </div>
       </div>
       <div>
         {isOpen && (

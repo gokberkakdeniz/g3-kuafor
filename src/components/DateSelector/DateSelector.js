@@ -1,35 +1,18 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { checkAvailability } from "../../helper";
 
 const DateSelector = ({ handleDisable, handleDate, startDate, bannedDateList, now }) => {
   const afterThreeMonts = new Date(new Date().setDate(new Date().getDate() + 90));
   // eslint-disable-next-line prefer-const
   let blockedDates = [];
-  function checkAvailability(dateObj) {
-    if (bannedDateList === undefined) return true;
-    if (bannedDateList === []) return true;
-    const hours = dateObj.getHours();
-    const minutes = dateObj.getMinutes();
-    const month = dateObj.getMonth();
-    const day = dateObj.getDay();
-    const found = bannedDateList.find(
-      (obj) =>
-        obj.getMonth() === month &&
-        obj.getDay() === day &&
-        obj.getHours() === hours &&
-        obj.getMinutes() === minutes
-    );
-    if (found === undefined) return true;
-    return false;
-  }
-
   const filterPassedTime = (time) => {
     const selectedDate = new Date(time);
     const hours = selectedDate.getHours();
     const endTime = hours <= 23;
     const startTime = hours >= 7;
-    const result = checkAvailability(selectedDate) && endTime && startTime;
+    const result = checkAvailability(selectedDate, bannedDateList, now) && endTime && startTime;
     if (!result) blockedDates.push(time);
     return result;
   };

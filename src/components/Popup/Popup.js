@@ -10,7 +10,7 @@ const Popup = (props) => {
     <div
       style={{ background: "rgba(0,0,0,0.5)" }}
       className="grid grid-cols-1 fixed bg-black z-10 inset-0 justify-center items-center place-items-center">
-      <div className="border-4 border-solid border-black p-20 w-2/6 h-4/6 rounded-2xl bg-header relative margin-auto overflow-auto">
+      <div className="border-4 border-solid border-black p-20 w-2/6 h-5/6 rounded-2xl bg-header relative margin-auto overflow-auto">
         <Button
           className="top-2 right-2 absolute bg-header w-10 h-10 text-center"
           onClick={props.handleClose}>
