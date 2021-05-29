@@ -8,7 +8,7 @@ const Button = ({ className, onClick, type, children, id, disabled = false }) =>
       id={id}
       // eslint-disable-next-line react/button-has-type
       type={type}
-      className={className}
+      className={clsx(className, "outline-none focus:outline-none hover:outline-none")}
       disabled={disabled}
       onClick={onClick}>
       {children}
