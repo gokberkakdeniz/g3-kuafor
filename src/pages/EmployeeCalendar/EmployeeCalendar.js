@@ -107,7 +107,6 @@ const EmployeeCalendar = () => {
       return;
     setWorkerName(worker?.userName);
     setStartDate(args.start.$d);
-    console.log(args.start.$d);
     setType(worker.type);
     if (event.target.textContent.includes("Free")) {
       setDisabled(true);
@@ -119,7 +118,11 @@ const EmployeeCalendar = () => {
       setName(Name);
       setSurname(Surname);
       const app = Appointments.find(
-        (appo) => appo.Name === Name && appo.Surname === Surname && appo.Date === args.start.$d
+        (appo) =>
+          appo.workerId === id &&
+          appo.Name === name &&
+          appo.Surname === surname &&
+          new Date(appo.Date).getTime() === startDate.getTime()
       );
       setId(app.id);
       setPhoneNumber(app.PhoneNumber);
