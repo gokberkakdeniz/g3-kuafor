@@ -12,7 +12,7 @@ const NameDiv = ({ list, style = {}, title }) => {
       {list.map((employee) => (
         <div key={employee.id}>
           <Link
-            to={`employee/${employee.id}`}
+            to={`/employees/${employee.id}`}
             className="bg-primary text-primary w-40 h-10 font-Open-Sans font-semibold text-xl hover:text-accent">
             {employee.userName}
           </Link>

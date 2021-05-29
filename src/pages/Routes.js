@@ -5,12 +5,14 @@ import Employees from "./Employees";
 import NotFound from "./NotFound";
 import Search from "./Search";
 import Calendar from "./Calendar";
+import EmployeeCalendar from "./EmployeeCalendar";
 
 const Routes = () => {
   return (
     <Switch>
       <Route path="/" exact component={Home} />
-      <Route path="/employees/:id?" component={Employees} />
+      <Route exact path="/employees/:id(\d+)" component={EmployeeCalendar} />
+      <Route path="/employees" component={Employees} />
       <Route path="/search" component={Search} />
       <Route path="/calendar" component={Calendar} />
       <Route path="*" component={NotFound} />
