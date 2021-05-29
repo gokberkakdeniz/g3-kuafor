@@ -7,11 +7,17 @@ const ComboBox = ({ className, onChange, placeholder, values, valueName, disable
       <option value="" disabled selected hidden>
         {placeholder}
       </option>
-      {values.map((value) => (
-        <option key={value} value={value}>
-          {value}
+      {Array.isArray(values) ? (
+        values.map((value) => (
+          <option key={value} value={value}>
+            {value}
+          </option>
+        ))
+      ) : (
+        <option key={values} value={values}>
+          {values}
         </option>
-      ))}
+      )}
     </select>
   );
 };

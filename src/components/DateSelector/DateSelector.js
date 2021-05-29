@@ -17,7 +17,7 @@ const DateSelector = ({ handleDisable, handleDate, startDate, bannedDateList, no
     return result;
   };
   const filterDate = (time) => {
-    const result = !String(time).includes("Mo") && time < afterThreeMonts;
+    const result = !String(time).includes("Su") && time < afterThreeMonts;
     if (!result) blockedDates.push(time);
     return result;
   };

@@ -5,7 +5,7 @@ function getWeekDays(date) {
   const d = dayjs(date).set("millisecond", 0).set("second", 0).set("minute", 0).set("hour", 0);
   const startOfWeek = d.subtract(d.day(), "day");
 
-  return [0, 2, 3, 4, 5, 6].map((i) => startOfWeek.add(i, "day"));
+  return [1, 2, 3, 4, 5, 6].map((i) => startOfWeek.add(i, "day"));
 }
 
 function getSlots(date, startHour, endHour, lengthHour) {

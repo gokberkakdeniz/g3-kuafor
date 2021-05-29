@@ -44,10 +44,12 @@ export function mapToSpanEmployee(args) {
       appointment.workerId === args.workerId &&
       appointment.RoomType === args.type
   );
+  let passed;
+  if (new Date().getTime() > args.date) passed = "Passed";
   if (bannedAppointment === undefined)
     return (
       <>
-        <span className="text-black text-sm">Free</span>
+        <span className="text-black text-sm">{passed || "Free"}</span>
         <br />
       </>
     );
@@ -55,6 +57,13 @@ export function mapToSpanEmployee(args) {
     <>
       <span className="text-black text-sm">
         {`${bannedAppointment.Name} ${bannedAppointment.Surname}`}
+        {passed ? (
+          <>
+            <br /> {passed}
+          </>
+        ) : (
+          ""
+        )}
       </span>
       <br />
     </>

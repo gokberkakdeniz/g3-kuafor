@@ -15,5 +15,6 @@ function validateDate(oldDate, selectedDate) {
 }
 
 export function validateAppointment(phoneNumber, oldDate, newDate) {
+  console.log(oldDate, newDate, phoneNumber);
   return validatePhoneNumber(phoneNumber) && validateDate(oldDate, newDate);
 }
