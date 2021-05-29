@@ -50,7 +50,7 @@ const PlusButton = () => {
     if (foundWorker === undefined) return;
     const result = validateAppointment(phoneNumber, now, startDate);
     if (!result) return;
-    dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
+    dispatch(add(foundWorker.id, name.trim(), surname.trim(), phoneNumber, startDate, type));
     togglePopup();
   };
   const arrayAppoint = useSelector((state) => state.adder.appointments || []);

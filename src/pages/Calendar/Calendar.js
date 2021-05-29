@@ -60,6 +60,7 @@ const Calendar = () => {
   };
 
   const handleSlotClick = (event, args) => {
+    if (event.target.textContent.includes("-")) return;
     setWorkerName(event.target.textContent);
     setStartDate(args.start.$d);
     setType(rooms[current]);

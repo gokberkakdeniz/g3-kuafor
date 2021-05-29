@@ -30,8 +30,8 @@ const EmployeeCalendar = () => {
   const [filteredUser, setFilteredSelect] = useState([]);
   const [isDisabled, setDisabled] = useState(false);
   const [isDisabledButton, setDisabledButton] = useState(false);
-  // eslint-disable-next-line prefer-const
-  let isCreate = true;
+  const [isCreate, setCreate] = useState(true);
+
   const handeSelect = (event) => {
     setType(event.target.value);
     setFilteredSelect(Workers.filter((user) => user.type.includes(event.target.value)));
@@ -43,7 +43,7 @@ const EmployeeCalendar = () => {
     setStartDate(now);
     setDisabled(false);
     setDisabledButton(false);
-    isCreate = true;
+    setCreate(true);
   }
 
   const togglePopup = () => {
@@ -90,41 +90,32 @@ const EmployeeCalendar = () => {
     if (event.target.textContent.includes("-") || event.target.textContent.includes("Passed"))
       return;
     setWorkerName(worker?.userName);
-    setStartDate(args.start.$d);
     setType(worker.type);
+    setStartDate(args.start.$d);
     if (event.target.textContent.includes("Free")) {
       setDisabled(true);
     } else {
-      isCreate = false;
+      setCreate(false);
       setDisabledButton(true);
-      const Name = event.target.textContent.split(" ")[0];
-      const Surname = event.target.textContent.split(" ")[1];
+      const index = event.target.textContent.indexOf(" ");
+      const Name = event.target.textContent.substring(0, index).trim();
+      const Surname = event.target.textContent.substring(index).trim();
       console.log(Name, Surname);
-      const app = Appointments.find(
-        (appo) =>
-          console.log(
-            id,
-            Name,
-            Surname,
-            appo.workerId,
-            appo.Name,
-            appo.Surname,
-            new Date(startDate).getTime(),
-            new Date(appo.Date).getTime(),
-            compareDates(appo.Date, startDate),
+      setName(Name);
+      setSurname(Surname);
+      try {
+        const app = Appointments.filter(
+          (appo) =>
             appo.workerId === id &&
-              appo.Name === Name &&
-              appo.Surname === Surname &&
-              compareDates(appo.Date, startDate)
-          ) &&
-          appo.workerId === id &&
-          appo.Name === Name &&
-          appo.Surname === Surname &&
-          compareDates(appo.Date, startDate)
-      );
-      console.log(app);
-      setId(app.id);
-      setPhoneNumber(app.PhoneNumber);
+            appo.Name.trim() === Name &&
+            appo.Surname.trim() === Surname &&
+            compareDates(appo.Date, args.start.$d)
+        );
+        setId(app[0].id);
+        setPhoneNumber(app[0].PhoneNumber);
+      } catch (err) {
+        console.log(err);
+      }
     }
     togglePopup();
   };
@@ -206,7 +197,7 @@ const EmployeeCalendar = () => {
                 {isCreate ? (
                   <Button
                     type="submit"
-                    onClick={() => handleClick()}
+                    onClick={handleClick}
                     className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
                     Create
                   </Button>

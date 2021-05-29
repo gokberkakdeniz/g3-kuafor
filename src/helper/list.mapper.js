@@ -21,6 +21,9 @@ function mapWorkerToSpan(worker, bannedIds, type) {
   const found = bannedIds.find((id) => id === worker.id);
   if (found !== undefined) return null;
   if (!worker.type.includes(type)) return null;
+  if (["Laser", "Skin Care"].includes(type) && bannedIds.length > 0) return null;
+  if (type === "Woman Hairdresser" && bannedIds.length > 6) return null;
+  if (type === "Man Hairdresser" && bannedIds.length > 5) return null;
   return (
     <>
       <span className="text-black text-sm">{worker.userName}</span>
@@ -42,7 +45,7 @@ export function mapToSpanEmployee(args) {
     (appointment) =>
       compareDates(appointment.Date, args.date) &&
       appointment.workerId === args.workerId &&
-      appointment.RoomType === args.type
+      args.type.includes(appointment.RoomType)
   );
   let passed;
   if (new Date().getTime() > args.date) passed = "Passed";
@@ -59,7 +62,8 @@ export function mapToSpanEmployee(args) {
         {`${bannedAppointment.Name} ${bannedAppointment.Surname}`}
         {passed ? (
           <>
-            <br /> {passed}
+            <br />
+            {passed}
           </>
         ) : (
           ""

@@ -92,7 +92,30 @@ const Search = () => {
     togglePopup();
   };
 
-  const handleDisabled = () => {};
+  function toValue(value) {
+    return value === null ? "" : value.toLowerCase();
+  }
+
+  function checkSubNames(appointment, word, worker) {
+    const splitted = word.split(" ");
+    return (
+      (appointment.Name.toLocaleLowerCase().includes(toValue(splitted[0])) &&
+        appointment.Surname.toLocaleLowerCase().includes(toValue(splitted[1]))) ||
+      worker.userName.toLocaleLowerCase().includes(toValue(word))
+    );
+  }
+
+  function checkValue(appointment, word) {
+    const worker = findWorker(appointment.workerId, "");
+    // eslint-disable-next-line prettier/prettier
+    return ( word.includes(" ") ? checkSubNames(appointment,word,worker) : false || 
+          appointment.Name.toLocaleLowerCase().includes(toValue(word)) ||
+          appointment.Surname.toLocaleLowerCase().includes(toValue(word)) ||
+          // eslint-disable-next-line prettier/prettier
+      worker.userName.toLocaleLowerCase().includes(toValue(word))
+    );
+  }
+
   return (
     <>
       <BackButton onClick={handleClick}>
@@ -102,10 +125,8 @@ const Search = () => {
         <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
           {arrayAppoint.map(
             (appointment) =>
-              appointment.Type === NEW &&
-              appointment.Name.toLowerCase().includes(
-                searchWord === null ? "" : searchWord.toLowerCase()
-              ) && (
+              new Date(appointment.Date) > new Date() &&
+              checkValue(appointment, searchWord) && (
                 <Button
                   className=" text-secondary p-2"
                   id={appointment.id}
@@ -123,9 +144,7 @@ const Search = () => {
         <div className="overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
           {Workers.map(
             (worker) =>
-              worker.userName
-                .toLowerCase()
-                .includes(searchWord === null ? "" : searchWord.toLowerCase()) && (
+              worker.userName.toLowerCase().includes(toValue(searchWord)) && (
                 <h1 key={worker.userName} className=" text-secondary p-2">
                   {worker.userName}
                 </h1>
@@ -135,10 +154,8 @@ const Search = () => {
         <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
           {arrayAppoint.map(
             (appointment) =>
-              appointment.Type === DONE &&
-              appointment.Name.toLowerCase().includes(
-                searchWord === null ? "" : searchWord.toLowerCase()
-              ) && (
+              new Date(appointment.Date) < new Date() &&
+              checkValue(appointment, searchWord) && (
                 <div className=" text-secondary p-2">
                   {`${parseToFormat(appointment.Date)}----------${parseToHour(appointment.Date)}`}
                   <br />
