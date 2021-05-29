@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 import { Popup, Button, BackButton, DateSelector, ComboBox } from "../../components";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
@@ -121,50 +122,70 @@ const Search = () => {
       <BackButton onClick={handleClick}>
         <IoArrowBack color="#e6e6e6" size="2em" />
       </BackButton>
-      <div className="flex space-x-48 h-5/6">
-        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
-          {arrayAppoint.map(
-            (appointment) =>
-              new Date(appointment.Date) > new Date() &&
-              checkValue(appointment, searchWord) && (
-                <Button
-                  className=" text-secondary p-2"
-                  id={appointment.id}
-                  type="button"
-                  onClick={togglePopup}>
-                  {`${parseToFormat(appointment.Date)}----------${parseToHour(appointment.Date)}`}
-                  <br />
-                  {`${appointment.Name} ${appointment.Surname}`}
-                  <br />
-                  {findWorker(appointment.workerId, "").userName}
-                </Button>
-              )
-          )}
+      <div className="flex space-x-48 h-5/6 justify-center">
+        <div className="w-1/6 rounded-3xl p-2 bg-header">
+          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+            {arrayAppoint.map(
+              (appointment) =>
+                new Date(appointment.Date) > new Date() &&
+                checkValue(appointment, searchWord) && (
+                  <Button
+                    className="w-5/6 p-2"
+                    id={appointment.id}
+                    type="button"
+                    onClick={togglePopup}>
+                    <div className="w-full inline-block">
+                      <div className="text-left inline float-left">
+                        <span className="text-secondary">
+                          {dayjs(appointment.Date).format("DD.MM.YYYY")}
+                        </span>
+                      </div>
+                      <div className="text-right inline float-right">
+                        <span className="text-secondary">{`${dayjs(appointment.Date).format(
+                          "HH:mm"
+                        )} - ${dayjs(appointment.Date).add(30, "minutes").format("HH:mm")}`}</span>
+                      </div>
+                    </div>
+
+                    <br />
+                    <span className="text-secondary">{`${appointment.Name} ${appointment.Surname}`}</span>
+                    <br />
+                    <span className="text-secondary">
+                      {findWorker(appointment.workerId, "").userName}
+                    </span>
+                  </Button>
+                )
+            )}
+          </div>
         </div>
-        <div className="overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
-          {Workers.map(
-            (worker) =>
-              worker.userName.toLowerCase().includes(toValue(searchWord)) && (
-                <h1 key={worker.userName} className=" text-secondary p-2">
-                  {worker.userName}
-                </h1>
-              )
-          )}
+        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+            {Workers.map(
+              (worker) =>
+                worker.userName.toLowerCase().includes(toValue(searchWord)) && (
+                  <h1 key={worker.userName} className=" text-secondary p-2">
+                    {worker.userName}
+                  </h1>
+                )
+            )}
+          </div>
         </div>
-        <div className="text-xs overflow-y-scroll flex flex-col items-center ml-40 w-1/6 h-full p-4 rounded-3xl px-3 bg-header items-center">
-          {arrayAppoint.map(
-            (appointment) =>
-              new Date(appointment.Date) < new Date() &&
-              checkValue(appointment, searchWord) && (
-                <div className=" text-secondary p-2">
-                  {`${parseToFormat(appointment.Date)}----------${parseToHour(appointment.Date)}`}
-                  <br />
-                  {`${appointment.Name} ${appointment.Surname}`}
-                  <br />
-                  {findWorker(appointment.workerId, "").userName}
-                </div>
-              )
-          )}
+        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+            {arrayAppoint.map(
+              (appointment) =>
+                new Date(appointment.Date) < new Date() &&
+                checkValue(appointment, searchWord) && (
+                  <div className=" text-secondary p-2">
+                    {dayjs(appointment.Date).format("DD.MM.YYYY - HH:mm")}
+                    <br />
+                    {`${appointment.Name} ${appointment.Surname}`}
+                    <br />
+                    {findWorker(appointment.workerId).userName}
+                  </div>
+                )
+            )}
+          </div>
         </div>
       </div>
       <div>
