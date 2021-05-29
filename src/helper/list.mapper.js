@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { compareDates } from "./comparor";
 
 export function mapToDates(list, workerId) {
@@ -36,4 +35,28 @@ export function mapToSpan(args) {
   );
   const bannedIds = bannedTimes.map((appointment) => appointment.workerId);
   return args.workers.map((worker) => mapWorkerToSpan(worker, bannedIds, args.type));
+}
+
+export function mapToSpanEmployee(args) {
+  const bannedAppointment = args.appointments.find(
+    (appointment) =>
+      compareDates(appointment.Date, args.date) &&
+      appointment.workerId === args.workerId &&
+      appointment.RoomType === args.type
+  );
+  if (bannedAppointment === undefined)
+    return (
+      <>
+        <span className="text-black text-sm">Free</span>
+        <br />
+      </>
+    );
+  return (
+    <>
+      <span className="text-black text-sm">
+        {`${bannedAppointment.Name} ${bannedAppointment.Surname}`}
+      </span>
+      <br />
+    </>
+  );
 }

@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ComboBox = ({ className, onChange, placeholder, values, valueName }) => {
+const ComboBox = ({ className, onChange, placeholder, values, valueName, disabled }) => {
   return (
-    <select value={valueName} onChange={onChange} className={className}>
+    <select disabled={disabled} value={valueName} onChange={onChange} className={className}>
       <option value="" disabled selected hidden>
         {placeholder}
       </option>

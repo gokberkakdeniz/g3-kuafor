@@ -15,8 +15,7 @@ const Search = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const searchWord = useSelector((state) => state.searchKey);
-  const tempAppointments = useSelector((state) => state.adder.appointments);
-  const arrayAppoint = tempAppointments === undefined ? [] : tempAppointments;
+  const arrayAppoint = useSelector((state) => state.adder.appointments || []);
 
   const [startDate, setStartDate] = useState(nowDate);
   const [name, setName] = useState("");

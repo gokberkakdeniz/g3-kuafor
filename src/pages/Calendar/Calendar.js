@@ -50,7 +50,6 @@ const Calendar = () => {
 
   const [current, setCurrent] = useState(0);
   const history = useHistory();
-  const arrayAppoint = useSelector((state) => state.adder.appointments || []);
 
   const handleForward = () => {
     if (current === rooms.length - 1) setCurrent(0);
@@ -112,7 +111,7 @@ const Calendar = () => {
                     handleDisable={isDisabled}
                     startDate={startDate}
                     now={now}
-                    bannedDateList={mapToDates(arrayAppoint, findWorkerId(Workers, workerName))}
+                    bannedDateList={mapToDates(Appointments, findWorkerId(Workers, workerName))}
                   />
                 </div>
                 <Button
