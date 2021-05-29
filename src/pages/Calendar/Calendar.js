@@ -41,7 +41,6 @@ const Calendar = () => {
     const foundWorker = Workers.find((worker) => worker.userName === workerName);
     if (foundWorker === undefined) return;
     const result = validateAppointment(phoneNumber, now, startDate);
-    console.log(now, startDate);
     if (!result) return;
     dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
     togglePopup();

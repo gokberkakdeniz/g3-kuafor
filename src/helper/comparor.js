@@ -2,6 +2,7 @@ export function compareDates(src, dst) {
   const tempSrc = new Date(src);
   const tempDst = new Date(dst);
   const hours = tempSrc.getHours();
+
   const minutes = tempSrc.getMinutes();
   const month = tempSrc.getMonth();
   const day = tempSrc.getDay();

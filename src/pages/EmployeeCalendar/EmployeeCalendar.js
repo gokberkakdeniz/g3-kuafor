@@ -4,7 +4,7 @@ import { useHistory, useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Workers from "../../store/employees";
 import NotFound from "../NotFound";
-import { mapToSpanEmployee, mapToDates, findWorkerId } from "../../helper";
+import { mapToSpanEmployee, mapToDates, findWorkerId, compareDates } from "../../helper";
 import { validateAppointment } from "../../validator";
 import { add, cancelAppointment, updateAppointment } from "../../store/appointment";
 
@@ -28,9 +28,10 @@ const EmployeeCalendar = () => {
   const [type, setType] = useState("");
   const [appointmentId, setId] = useState(0);
   const [filteredUser, setFilteredSelect] = useState([]);
-  const [child, setChild] = useState();
   const [isDisabled, setDisabled] = useState(false);
   const [isDisabledButton, setDisabledButton] = useState(false);
+  // eslint-disable-next-line prefer-const
+  let isCreate = true;
   const handeSelect = (event) => {
     setType(event.target.value);
     setFilteredSelect(Workers.filter((user) => user.type.includes(event.target.value)));
@@ -42,6 +43,7 @@ const EmployeeCalendar = () => {
     setStartDate(now);
     setDisabled(false);
     setDisabledButton(false);
+    isCreate = true;
   }
 
   const togglePopup = () => {
@@ -77,24 +79,6 @@ const EmployeeCalendar = () => {
     dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
     togglePopup();
   };
-
-  const updateButton = (
-    <>
-      <Button
-        type="submit"
-        onClick={onClickUpdate}
-        className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
-        Update
-      </Button>
-      <Button
-        type="button"
-        onClick={handleCancel}
-        className="bg-cancel flex-col absolute bottom-5 w-24 h-12 rounded-3xl left-5">
-        Cancel
-      </Button>
-    </>
-  );
-
   const handleForward = () => {
     history.push(`/employees/${id + 1}`);
   };
@@ -110,24 +94,44 @@ const EmployeeCalendar = () => {
     setType(worker.type);
     if (event.target.textContent.includes("Free")) {
       setDisabled(true);
-      setChild(createButton);
     } else {
+      isCreate = false;
       setDisabledButton(true);
       const Name = event.target.textContent.split(" ")[0];
       const Surname = event.target.textContent.split(" ")[1];
-      setName(Name);
-      setSurname(Surname);
+      console.log(Name, Surname);
       const app = Appointments.find(
         (appo) =>
+          console.log(
+            id,
+            Name,
+            Surname,
+            appo.workerId,
+            appo.Name,
+            appo.Surname,
+            new Date(startDate).getTime(),
+            new Date(appo.Date).getTime(),
+            compareDates(appo.Date, startDate),
+            appo.workerId === id &&
+              appo.Name === Name &&
+              appo.Surname === Surname &&
+              compareDates(appo.Date, startDate)
+          ) &&
           appo.workerId === id &&
-          appo.Name === name &&
-          appo.Surname === surname &&
-          new Date(appo.Date).getTime() === startDate.getTime()
+          appo.Name === Name &&
+          appo.Surname === Surname &&
+          compareDates(appo.Date, startDate)
       );
+      console.log(app);
       setId(app.id);
       setPhoneNumber(app.PhoneNumber);
-      setChild(updateButton);
     }
+    togglePopup();
+  };
+  const handleClick = () => {
+    const result = validateAppointment(phoneNumber, now, startDate);
+    if (!result) return;
+    dispatch(add(id, name, surname, phoneNumber, startDate, type));
     togglePopup();
   };
 
@@ -142,22 +146,7 @@ const EmployeeCalendar = () => {
   const handleWorkerSelect = (event) => {
     setWorkerName(event.target.value);
   };
-  const handleClick = () => {
-    console.log(phoneNumber, "zaaaButton");
-    const result = validateAppointment(phoneNumber, now, startDate);
-    if (!result) return;
-    dispatch(add(id, name, surname, phoneNumber, startDate, type));
-    togglePopup();
-  };
-  console.log(phoneNumber, "zaaaBody");
-  const createButton = (
-    <Button
-      type="submit"
-      onClick={() => handleClick()}
-      className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
-      Create
-    </Button>
-  );
+
   return worker ? (
     <div className="p-4">
       <div>
@@ -214,7 +203,29 @@ const EmployeeCalendar = () => {
                     )}
                   />
                 </div>
-                {child}
+                {isCreate ? (
+                  <Button
+                    type="submit"
+                    onClick={() => handleClick()}
+                    className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                    Create
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      type="submit"
+                      onClick={onClickUpdate}
+                      className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                      Update
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={handleCancel}
+                      className="bg-cancel flex-col absolute bottom-5 w-24 h-12 rounded-3xl left-5">
+                      Cancel
+                    </Button>
+                  </>
+                )}
               </>
             }
             handleClose={togglePopup}
