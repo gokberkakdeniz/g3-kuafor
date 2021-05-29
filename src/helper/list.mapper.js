@@ -7,6 +7,12 @@ export function mapToDates(list, workerId) {
   return dates === undefined ? [] : dates;
 }
 
+export function findWorkerId(list, workerName) {
+  const found = list.find((worker) => worker.userName === workerName);
+  if (found === undefined) return -1;
+  return found.id;
+}
+
 function findWorker(workers, id) {
   const found = workers.find((worker) => worker.id === id);
   return found;
@@ -15,7 +21,7 @@ function findWorker(workers, id) {
 function mapWorkerToSpan(worker, bannedIds, type) {
   const found = bannedIds.find((id) => id === worker.id);
   if (found !== undefined) return null;
-  if (!type.includes(worker.type)) return null;
+  if (!worker.type.includes(type)) return null;
   return (
     <>
       <span className="text-black text-sm">{worker.userName}</span>

@@ -10,14 +10,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import ComboBox from "../ComboBox";
 import Workers from "../../store/employees";
 import DateSelector from "../DateSelector";
-import { mapToDates } from "../../helper";
+import { mapToDates, findWorkerId } from "../../helper";
 import { validateAppointment } from "../../validator";
 
 const PlusButton = () => {
   const now = new Date();
-  // eslint-disable-next-line prefer-const
-  let afterThreeMonts = new Date();
-  afterThreeMonts.setDate(afterThreeMonts.getDay() + 90);
   const [isOpen, setIsOpen] = useState(false);
   const [startDate, setStartDate] = useState();
   const [name, setName] = useState("");
@@ -56,19 +53,12 @@ const PlusButton = () => {
     dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
     togglePopup();
   };
-  const tempAppointments = useSelector((state) => state.adder.appointments);
-  const arrayAppoint = tempAppointments === undefined ? [] : tempAppointments;
+  const arrayAppoint = useSelector((state) => state.adder.appointments || []);
 
   const handleWorkerSelect = (event) => {
     setDisabled(false);
     setWorkerName(event.target.value);
   };
-
-  function findWorkerId() {
-    const found = Workers.find((worker) => worker.userName === workerName);
-    if (found === undefined) return -1;
-    return found.id;
-  }
 
   return (
     <div className="bottom-0 right-0 absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
@@ -124,7 +114,7 @@ const PlusButton = () => {
                     handleDate={(date) => setStartDate(date)}
                     startDate={startDate}
                     now={now}
-                    bannedDateList={mapToDates(arrayAppoint, findWorkerId())}
+                    bannedDateList={mapToDates(arrayAppoint, findWorkerId(Workers, workerName))}
                   />
                 </div>
                 <Button

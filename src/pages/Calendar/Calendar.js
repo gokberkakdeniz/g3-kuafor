@@ -1,19 +1,56 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
 import { useHistory } from "react-router-dom";
-import { BackButton } from "../../components/Button";
-import { mapToSpan } from "../../helper";
+import { BackButton, WeeklySchedule, Popup, DateSelector, Button } from "../../components";
+import { mapToSpan, mapToDates, findWorkerId } from "../../helper";
 import Workers from "../../store/employees";
-import { WeeklySchedule } from "../../components";
+import { validateAppointment } from "../../validator";
+import { add } from "../../store/appointment";
 
 const rooms = ["Man Hairdresser", "Woman Hairdresser", "Skin Care", "Laser"];
 
 const Calendar = () => {
-  const tempAppointments = useSelector((state) => state.adder.appointments || []);
+  const now = new Date();
+  const [isOpen, setIsOpen] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [workerName, setWorkerName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [type, setType] = useState("");
+  const [isDisabled, setDisabled] = useState(true);
+  function setValues() {
+    setName("");
+    setSurname("");
+    setPhoneNumber("");
+    setStartDate();
+    setDisabled(true);
+  }
+
+  const togglePopup = () => {
+    if (isOpen) {
+      setValues();
+    }
+    setIsOpen(!isOpen);
+  };
+
+  const dispatch = useDispatch();
+
+  const onClick = () => {
+    const foundWorker = Workers.find((worker) => worker.userName === workerName);
+    if (foundWorker === undefined) return;
+    const result = validateAppointment(phoneNumber, now, startDate);
+    console.log(now, startDate);
+    if (!result) return;
+    dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
+    togglePopup();
+  };
+  const Appointments = useSelector((state) => state.adder.appointments || []);
 
   const [current, setCurrent] = useState(0);
   const history = useHistory();
+  const arrayAppoint = useSelector((state) => state.adder.appointments || []);
 
   const handleForward = () => {
     if (current === rooms.length - 1) setCurrent(0);
@@ -25,12 +62,71 @@ const Calendar = () => {
   };
 
   const handleSlotClick = (event, args) => {
-    console.log(event.target.textContent, args);
+    setWorkerName(event.target.textContent);
+    setStartDate(args.start.$d);
+    setType(rooms[current]);
+    togglePopup();
   };
-  const renderSlot = (event, args) => <span className="text-black">sss</span>;
+  const renderSlot = (args) => {
+    return mapToSpan({
+      date: args.start,
+      workers: Workers,
+      appointments: Appointments,
+      type: rooms[current]
+    });
+  };
 
   return (
     <div className="p-4">
+      <div>
+        {isOpen && (
+          <Popup
+            content={
+              <>
+                <div className="grid grid-cols-1 gap-2">
+                  <p className="text-secondary">Appointment Information</p>
+                  <input
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    placeholder="Name"
+                  />
+                  <input
+                    value={surname}
+                    onChange={(event) => setSurname(event.target.value)}
+                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    placeholder="Surname"
+                  />
+                  <input
+                    value={phoneNumber}
+                    onChange={(event) => setPhoneNumber(event.target.value)}
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    placeholder="Phone Number"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                  <p className="text-secondary">Worker Information</p>
+                  <h1 className="px-2 h-7 rounded-3xl bg-popup text-secondary">{type}</h1>
+                  <h1 className="px-2 h-7 rounded-3xl bg-popup text-secondary">{workerName}</h1>
+                  <DateSelector
+                    handleDisable={isDisabled}
+                    startDate={startDate}
+                    now={now}
+                    bannedDateList={mapToDates(arrayAppoint, findWorkerId(Workers, workerName))}
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  onClick={onClick}
+                  className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                  Create
+                </Button>
+              </>
+            }
+            handleClose={togglePopup}
+          />
+        )}
+      </div>
       <div className="ml-auto" style={{ display: "inline-block" }}>
         <BackButton onClick={() => history.push("/")}>
           <IoArrowBack color="#e6e6e6" size="2em" />

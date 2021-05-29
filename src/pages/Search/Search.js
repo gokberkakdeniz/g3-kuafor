@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, BackButton } from "../../components/Button";
+import { Popup, Button, BackButton, DateSelector, ComboBox } from "../../components";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
 import { NEW, DONE, cancelAppointment, updateAppointment } from "../../store/appointment";
 import "react-datepicker/dist/react-datepicker.css";
-import Popup from "../../components/Popup";
-import ComboBox from "../../components/ComboBox";
-import DateSelector from "../../components/DateSelector";
 import { validateAppointment } from "../../validator";
 
 const Search = () => {

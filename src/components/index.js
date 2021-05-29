@@ -8,3 +8,4 @@ export { default as NameDiv } from "./NameDiv";
 export { default as ComboBox } from "./ComboBox";
 export { default as DateSelector } from "./DateSelector";
 export { default as WeeklySchedule } from "./WeeklySchedule";
+export { default as Popup } from "./Popup";
