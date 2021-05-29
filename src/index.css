@@ -18,8 +18,66 @@ html, body {
   @apply bg-primary;
 }
 
-* {
+*:not(option) {
   color: var(--color-text-primary);
+}
+
+.scrollbar--gray::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar--gray {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) var(--color-bg-popup);
+  scrollbar-radius: 5px;
+}
+.scrollbar--gray::-webkit-scrollbar-track {
+  background: var(--color-bg-popup);
+}
+.scrollbar--gray::-webkit-scrollbar-thumb {
+  background-color: var(--color-accent);
+  border: none;
+}
+
+select {
+  /* background-color: white; */
+  display: inline-block;
+  font: inherit;
+  margin: 0;      
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 0.75rem, 
+    calc(100% - 15px) 0.75rem;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+select:focus {
+  background-image:
+    linear-gradient(45deg, gray 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, gray 50%);
+  background-position:
+    calc(100% - 15px) 0.75rem,
+    calc(100% - 20px) 0.75rem;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+  outline: 0;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
 }
 
 @variants hover, focus {

@@ -35,17 +35,17 @@ const WeeklySchedule = ({ renderer, onClick, from = 7, to = 24, length = 0.5 }) 
                 <span className="text-black text-sm">{day.format("DD MMMM YYYY")}</span>
               </div>
 
-              <div className="flex flex-col my-4 overflow-y-auto overflow-x-hidden h-96">
+              <div className="flex flex-col my-4 overflow-y-auto overflow-x-hidden h-96 scrollbar--gray">
                 {slots.map(([start, end], slotIndex) => (
                   <div
                     key={`slot-${start.unix()}`}
-                    className="bg-popup text-center w-full py-2 border-b-2 border-gray-500"
+                    className="bg-popup text-center w-full py-2 border-b-2 border-gray-500 hover:bg-gray-300 outline-none"
                     role="button"
                     tabIndex={0}
                     aria-hidden="true"
                     onClick={(event) => onClick(event, { start, end, day, dayIndex, slotIndex })}
                     title="Click to reserve">
-                    <span className="text-black text-sm">
+                    <span className="text-black text-sm font-bold">
                       {`${start.format("HH:mm")} - ${end.format("HH:mm")}`}
                     </span>
                     <br />

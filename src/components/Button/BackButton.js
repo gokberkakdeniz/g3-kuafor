@@ -8,7 +8,7 @@ const BackButton = ({ children, onClick, small = false, disabled = false }) => {
       onClick={onClick}
       className={clsx(
         small ? "w-8 h-8" : "w-12 h-12",
-        "flex flex-col items-center rounded-3xl justify-center",
+        "flex flex-col items-center rounded-3xl justify-center ",
         disabled ? "bg-secondary cursor-default" : "bg-accent"
       )}
       type="button"
