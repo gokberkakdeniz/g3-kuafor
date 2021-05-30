@@ -3,6 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import clsx from "clsx";
 import { Popup, Button, BackButton, DateSelector, ComboBox } from "../../components";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
@@ -162,7 +163,7 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+        <div className="w-1/6 rounded-3xl p-2 bg-header">
           <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {Workers.map(
               (worker) =>
@@ -177,7 +178,7 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+        <div className="w-1/6rounded-3xl p-2 bg-header">
           <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {arrayAppoint.map(
               (appointment) =>
@@ -207,7 +208,7 @@ const Search = () => {
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div className="grid grid-cols-1 gap-2">
@@ -219,7 +220,10 @@ const Search = () => {
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className={clsx(
+                      "px-2 h-7 rounded-3xl bg-popup",
+                      filteredUser.length === 0 ? "text-gray-400" : "text-secondary"
+                    )}
                     placeholder={workerName}
                     values={filteredUser.map((user) => user.userName)}
                     onChange={(event) => setWorkerName(event.target.value)}

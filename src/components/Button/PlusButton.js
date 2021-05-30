@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { BsPlus } from "react-icons/bs";
 import DatePicker from "react-datepicker";
+import clsx from "clsx";
 import { add } from "../../store/appointment";
 import Popup from "../Popup";
 import Button from "./Button";
@@ -78,19 +79,19 @@ const PlusButton = () => {
                   <input
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Name"
                   />
                   <input
                     value={surname}
                     onChange={(event) => setSurname(event.target.value)}
-                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Surname"
                   />
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Phone Number"
                   />
                 </div>
@@ -103,9 +104,13 @@ const PlusButton = () => {
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className={clsx(
+                      "px-2 h-7 rounded-3xl bg-popup",
+                      filteredUser.length === 0 ? "text-gray-400" : "text-secondary"
+                    )}
                     placeholder="Worker"
                     value={workerName}
+                    disabled={filteredUser.length === 0}
                     values={filteredUser.map((user) => user.userName)}
                     onChange={handleWorkerSelect}
                   />

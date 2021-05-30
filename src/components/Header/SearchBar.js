@@ -29,7 +29,10 @@ const SearchBarButton = ({ className, style, children }) => {
         size="1.5em"
       />
       <input
-        className={clsx("p-4 px-12 flex float-right flex-start", className)}
+        className={clsx(
+          "p-4 px-12 flex float-right flex-start border outline-none focus:outline-none focus:border-gray-300",
+          className
+        )}
         onKeyPress={handleKey}
         id="search-bar"
         type="text"

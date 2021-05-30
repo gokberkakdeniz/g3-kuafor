@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
 import Workers from "../../store/employees";
 import NotFound from "../NotFound";
 import { mapToSpanEmployee, mapToDates, findWorkerId, compareDates } from "../../helper";
@@ -151,20 +152,20 @@ const EmployeeCalendar = () => {
                     disabled={isDisabledButton}
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Name"
                   />
                   <input
                     disabled={isDisabledButton}
                     value={surname}
                     onChange={(event) => setSurname(event.target.value)}
-                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Surname"
                   />
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Phone Number"
                   />
                 </div>
@@ -177,7 +178,10 @@ const EmployeeCalendar = () => {
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className={clsx(
+                      "px-2 h-7 rounded-3xl bg-popup",
+                      filteredUser.length === 0 ? "text-gray-400" : "text-secondary"
+                    )}
                     disabled={isDisabled}
                     placeholder={workerName}
                     value={workerName}
@@ -230,9 +234,8 @@ const EmployeeCalendar = () => {
           </BackButton>
         </Link>
       </div>
-
+      <div className="text-center text-2xl font-bold mb-4">{`${worker.userName}'s Schedule`}</div>
       <WeeklySchedule onClick={handleSlotClick} renderer={renderSlot} />
-
       <div className="absolute left-8 bottom-8">
         <div className="flex flex-row space-x-4 items-center mt-auto" style={{ width: "92.5rem" }}>
           <div>
