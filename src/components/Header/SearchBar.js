@@ -24,8 +24,7 @@ const SearchBarButton = ({ className, style, children }) => {
       <IoIosSearch
         id="search-icon-button"
         onClick={handleKey}
-        className="ml-4 absolute hover:bg-accent"
-        color="#e6e6e6"
+        className="ml-4 absolute text-white hover:text-accent cursor-pointer"
         size="1.5em"
       />
       <input
