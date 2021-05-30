@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -43,7 +43,6 @@ const Search = () => {
 
   function setValues(id) {
     const appointment = findAppointment(id);
-
     if (appointment !== undefined) {
       setId(id);
       setName(appointment.Name);
@@ -66,6 +65,7 @@ const Search = () => {
   }
 
   const togglePopup = (event) => {
+    console.log(event.target);
     if (!isOpen) {
       setValues(parseInt(event.target.id, 10));
     } else {
@@ -134,23 +134,27 @@ const Search = () => {
                     id={appointment.id}
                     type="button"
                     onClick={togglePopup}>
-                    <div className="w-full inline-block">
-                      <div className="text-left inline float-left">
-                        <span className="text-secondary">
+                    <div id={appointment.id} className="w-full inline-block">
+                      <div id={appointment.id} className="text-left inline float-left">
+                        <span id={appointment.id} className="text-secondary">
                           {dayjs(appointment.Date).format("DD.MM.YYYY")}
                         </span>
                       </div>
-                      <div className="text-right inline float-right">
-                        <span className="text-secondary">{`${dayjs(appointment.Date).format(
-                          "HH:mm"
-                        )} - ${dayjs(appointment.Date).add(30, "minutes").format("HH:mm")}`}</span>
+                      <div id={appointment.id} className="text-right inline float-right">
+                        <span id={appointment.id} className="text-secondary">{`${dayjs(
+                          appointment.Date
+                        ).format("HH:mm")} - ${dayjs(appointment.Date)
+                          .add(30, "minutes")
+                          .format("HH:mm")}`}</span>
                       </div>
                     </div>
 
                     <br />
-                    <span className="text-secondary">{`${appointment.Name} ${appointment.Surname}`}</span>
+                    <span
+                      id={appointment.id}
+                      className="text-secondary">{`${appointment.Name} ${appointment.Surname}`}</span>
                     <br />
-                    <span className="text-secondary">
+                    <span id={appointment.id} className="text-secondary">
                       {findWorker(appointment.workerId, "").userName}
                     </span>
                   </Button>
@@ -163,9 +167,12 @@ const Search = () => {
             {Workers.map(
               (worker) =>
                 worker.userName.toLowerCase().includes(toValue(searchWord)) && (
-                  <h1 key={worker.userName} className=" text-secondary p-2">
-                    {worker.userName}
-                  </h1>
+                  <Link to={`/employees/${worker.id}`}>
+                    {" "}
+                    <h1 key={worker.userName} className=" text-secondary p-2">
+                      {worker.userName}
+                    </h1>
+                  </Link>
                 )
             )}
           </div>

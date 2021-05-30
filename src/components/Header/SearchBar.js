@@ -11,8 +11,9 @@ const SearchBarButton = ({ className, style, children }) => {
 
   const dispatch = useDispatch();
   const handleKey = (event) => {
-    if (event.key === "Enter") {
-      dispatch(set(event.target.value));
+    if (event.key === "Enter" || event.target.id === "search-icon-button") {
+      const searchValue = document.getElementById("search-bar").value;
+      dispatch(set(searchValue));
       document.getElementById("search-bar").value = "";
       if (location.pathname === "/search") return;
       history.push("/search");
@@ -20,7 +21,13 @@ const SearchBarButton = ({ className, style, children }) => {
   };
   return (
     <div className="relative flex float-right flex-start items-center" style={style}>
-      <IoIosSearch className="ml-4 absolute" color="#e6e6e6" size="1.5em" />
+      <IoIosSearch
+        id="search-icon-button"
+        onClick={handleKey}
+        className="ml-4 absolute hover:bg-accent"
+        color="#e6e6e6"
+        size="1.5em"
+      />
       <input
         className={clsx("p-4 px-12 flex float-right flex-start", className)}
         onKeyPress={handleKey}
