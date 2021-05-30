@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import clsx from "clsx";
 import { Popup, Button, BackButton, DateSelector, ComboBox } from "../../components";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
@@ -212,7 +213,10 @@ const Search = () => {
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className={clsx(
+                      "px-2 h-7 rounded-3xl bg-popup",
+                      filteredUser.length === 0 ? "text-gray-400" : "text-secondary"
+                    )}
                     placeholder={workerName}
                     values={filteredUser.map((user) => user.userName)}
                     onChange={(event) => setWorkerName(event.target.value)}

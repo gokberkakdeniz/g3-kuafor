@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import clsx from "clsx";
 import Workers from "../../store/employees";
 import NotFound from "../NotFound";
 import { mapToSpanEmployee, mapToDates, findWorkerId, compareDates } from "../../helper";
@@ -177,7 +178,10 @@ const EmployeeCalendar = () => {
                     onChange={handeSelect}
                   />
                   <ComboBox
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className={clsx(
+                      "px-2 h-7 rounded-3xl bg-popup",
+                      filteredUser.length === 0 ? "text-gray-400" : "text-secondary"
+                    )}
                     disabled={isDisabled}
                     placeholder={workerName}
                     value={workerName}
