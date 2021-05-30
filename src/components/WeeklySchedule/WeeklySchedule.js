@@ -38,7 +38,7 @@ const WeeklySchedule = ({ renderer, onClick, from = 7, to = 24, length = 0.5 }) 
                   {slots.map(([start, end], slotIndex) => (
                     <div
                       key={`slot-${start.unix()}`}
-                      className="bg-popup text-center w-full py-2 border-b-2 border-gray-500 hover:bg-gray-300 outline-none"
+                      className="bg-popup text-center w-full py-2 border-b-2 border-gray-500 outline-none"
                       role="button"
                       tabIndex={0}
                       aria-hidden="true"

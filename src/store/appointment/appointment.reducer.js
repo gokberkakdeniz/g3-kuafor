@@ -14,9 +14,6 @@ function findIndex(index, list) {
   return -1;
 }
 
-// TODO yeni eklenen date sıkıntı
-// TODO saerch ekranı flex ekle
-
 function findEmptyIndex(length, list) {
   let i = length + 1;
   while (list[i] !== undefined) {

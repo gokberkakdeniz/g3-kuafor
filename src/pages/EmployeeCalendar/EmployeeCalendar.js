@@ -182,7 +182,7 @@ const EmployeeCalendar = () => {
     if (event.target.textContent.includes("-") || event.target.textContent.includes("Passed"))
       return;
     setWorkerName(worker?.userName);
-    setType(worker.type);
+    setType(Array.isArray(worker.type) ? "Type" : worker.type);
     setStartDate(args.start.$d);
     if (event.target.textContent.includes("Free")) {
       setDisabled(true);
@@ -204,6 +204,7 @@ const EmployeeCalendar = () => {
             compareDates(appo.Date, args.start.$d)
         );
         setId(app[0].id);
+        setType(app[0].RoomType);
         setPhoneNumber(app[0].PhoneNumber);
       } catch (err) {
         console.log(err);
@@ -273,7 +274,7 @@ const EmployeeCalendar = () => {
                   <p className="text-secondary">Worker Information</p>
                   <ComboBox
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
-                    placeholder={Array.isArray(worker.type) ? "Type" : worker.type}
+                    placeholder={type}
                     values={worker.type}
                     onChange={handeSelect}
                   />
