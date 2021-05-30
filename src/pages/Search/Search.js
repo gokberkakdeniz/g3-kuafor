@@ -66,7 +66,6 @@ const Search = () => {
   }
 
   const togglePopup = (event) => {
-    console.log(event.target);
     if (!isOpen) {
       setValues(parseInt(event.target.id, 10));
     } else {
@@ -216,7 +215,13 @@ const Search = () => {
                   <ComboBox
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder={type}
-                    values={["Man Hairdresser", "Woman Hairdresser", "Laser", "Skin Care"]}
+                    values={[
+                      "Man Hairdresser",
+                      "Woman Hairdresser",
+                      "Laser",
+                      "Skin Care",
+                      "Beauty Center"
+                    ]}
                     onChange={handeSelect}
                   />
                   <ComboBox

@@ -12,10 +12,10 @@ const Workers = [
   { userName: "Kadriye Eyip", type: "Woman Hairdresser", id: 11 },
   { userName: "Ceren Bilir", type: "Woman Hairdresser", id: 12 },
   { userName: "Sevgi Çelik", type: "Woman Hairdresser", id: 13 },
-  { userName: "Ahmet Deniz", type: ["Skin Care", "Laser"], id: 14 },
-  { userName: "Ayşe Cimri", type: ["Skin Care", "Laser"], id: 15 },
-  { userName: "Celil Çalışkan", type: ["Skin Care", "Laser"], id: 16 },
-  { userName: "Beyza Aydın", type: ["Skin Care", "Laser"], id: 17 }
+  { userName: "Ahmet Deniz", type: ["Skin Care", "Laser", "Beauty Center"], id: 14 },
+  { userName: "Ayşe Cimri", type: ["Skin Care", "Laser", "Beauty Center"], id: 15 },
+  { userName: "Celil Çalışkan", type: ["Skin Care", "Laser", "Beauty Center"], id: 16 },
+  { userName: "Beyza Aydın", type: ["Skin Care", "Laser", "Beauty Center"], id: 17 }
 ];
 
 export default Workers;

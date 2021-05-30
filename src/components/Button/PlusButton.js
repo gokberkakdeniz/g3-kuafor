@@ -100,7 +100,13 @@ const PlusButton = () => {
                   <ComboBox
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"
                     placeholder="Type"
-                    values={["Man Hairdresser", "Woman Hairdresser", "Laser", "Skin Care"]}
+                    values={[
+                      "Man Hairdresser",
+                      "Woman Hairdresser",
+                      "Laser",
+                      "Skin Care",
+                      "Beauty Center"
+                    ]}
                     onChange={handeSelect}
                   />
                   <ComboBox

@@ -4,14 +4,14 @@ export const ADD = "ADD";
 export const CANCEL = "CANCEL";
 export const UPDATE = "UPDATE";
 
-export const add = (workerId, Name, Surname, PhoneNumber, Date, RoomType) => ({
+export const add = (workerId, Name, Surname, PhoneNumber, Date, RoomType, Type) => ({
   type: ADD,
   data: {
     workerId,
     Name,
     Surname,
     PhoneNumber,
-    Type: NEW,
+    Type,
     Date,
     RoomType
   }

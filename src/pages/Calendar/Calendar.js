@@ -6,7 +6,7 @@ import { BackButton, WeeklySchedule, Popup, DateSelector, Button } from "../../c
 import { mapToSpan, mapToDates, findWorkerId } from "../../helper";
 import Workers from "../../store/employees";
 import { validateAppointment } from "../../validator";
-import { add } from "../../store/appointment";
+import { add, NEW, DONE } from "../../store/appointment";
 
 const rooms = ["Man Hairdresser", "Woman Hairdresser", "Skin Care", "Laser"];
 
@@ -37,12 +37,17 @@ const Calendar = () => {
 
   const dispatch = useDispatch();
 
+  function chooseType() {
+    return rooms[current].includes("Man Hairdresser") ? NEW : DONE;
+  }
+
   const onClick = () => {
     const foundWorker = Workers.find((worker) => worker.userName === workerName);
     if (foundWorker === undefined) return;
     const result = validateAppointment(phoneNumber, now, startDate);
     if (!result) return;
-    dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type));
+    const beautyPlace = type.includes("Beauty Center") ? chooseType() : NEW;
+    dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type, beautyPlace));
     togglePopup();
   };
   const Appointments = useSelector((state) => state.adder.appointments || []);
@@ -63,8 +68,12 @@ const Calendar = () => {
     if (event.target.textContent.includes("-")) return;
     if (new Date() > new Date(args.start.$d)) return;
     setWorkerName(event.target.textContent);
+    const foundWorker = Workers.find((worker) => worker.userName === event.target.textContent);
     setStartDate(args.start.$d);
-    setType(rooms[current]);
+    const roomValue = ["Skin Care", "Laser"].includes(rooms[current])
+      ? rooms[current]
+      : "Beauty Center";
+    setType(Array.isArray(foundWorker.type) ? roomValue : rooms[current]);
     togglePopup();
   };
   const renderSlot = (args) => {
