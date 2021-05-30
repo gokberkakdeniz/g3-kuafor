@@ -192,7 +192,7 @@ const EmployeeCalendar = () => {
       const index = event.target.textContent.indexOf(" ");
       const Name = event.target.textContent.substring(0, index).trim();
       const Surname = event.target.textContent.substring(index).trim();
-      console.log(Name, Surname);
+
       setName(Name);
       setSurname(Surname);
       try {
@@ -342,7 +342,7 @@ const EmployeeCalendar = () => {
       </div>
       <div className="text-center text-2xl font-bold mb-4">{`${worker.userName}'s Schedule`}</div>
       <WeeklySchedule onClick={handleSlotClick} renderer={renderSlot} />
-      <div className="absolute left-8 bottom-8">
+      <div className="fixed left-8 bottom-8">
         <div className="flex flex-row space-x-4 items-center mt-auto" style={{ width: "92.5rem" }}>
           <div>
             <BackButton onClick={handleBackward} disabled={Workers[0].id === id}>

@@ -68,7 +68,7 @@ export function mapToSpan(args) {
       bannedTimes.push(tempList[i]);
     }
   }
-  console.log(man, woman);
+
   const bannedIds = bannedTimes.map((appointment) => appointment.workerId);
   return args.workers.map((worker) =>
     mapWorkerToSpan(worker, bannedIds, args.type, args.date, laserSkin, man, woman)

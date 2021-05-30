@@ -243,7 +243,7 @@ const Calendar = () => {
 
       <WeeklySchedule onClick={handleSlotClick} renderer={renderSlot} />
 
-      <div className="absolute left-8 bottom-8">
+      <div className="fixed left-8 bottom-8">
         <div className="flex flex-row space-x-4 items-center mt-auto" style={{ width: "92.5rem" }}>
           <div>
             <BackButton onClick={handleBackward}>

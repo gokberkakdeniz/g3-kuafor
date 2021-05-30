@@ -152,7 +152,7 @@ const PlusButton = () => {
   };
 
   return (
-    <div className="bottom-0 right-0 absolute ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
+    <div className="bottom-0 right-0 fixed ml-auto py-3 px-3 flex flex-col space-y-2 justify-center items-center">
       <Button
         onClick={togglePopup}
         className="flex flex-col items-center bg-accent w-12 h-12 rounded-3xl justify-center"
