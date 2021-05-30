@@ -7,13 +7,13 @@ function validatePhoneNumber(phoneNumber) {
   return true;
 }
 
-function validateDate(oldDate, selectedDate) {
-  if (selectedDate === undefined) return false;
+export function validateDate(oldDate, selectedDate) {
+  if (!selectedDate) return false;
   const tempOld = new Date(oldDate);
   const tempNew = new Date(selectedDate);
   return tempOld.getTime() < tempNew.getTime();
 }
 
-export function validateAppointment(phoneNumber, oldDate, newDate) {
-  return validatePhoneNumber(phoneNumber) && validateDate(oldDate, newDate);
+export function isNumeric(value) {
+  return /^\d+$/.test(value);
 }

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { IoArrowForward, IoArrowBack } from "react-icons/io5";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -6,7 +6,7 @@ import clsx from "clsx";
 import Workers from "../../store/employees";
 import NotFound from "../NotFound";
 import { mapToSpanEmployee, mapToDates, findWorkerId, compareDates } from "../../helper";
-import { validateAppointment } from "../../validator";
+import { isNumeric, validateDate } from "../../validator";
 import { add, cancelAppointment, updateAppointment } from "../../store/appointment";
 
 import {
@@ -18,10 +18,21 @@ import {
   ComboBox
 } from "../../components";
 
+const nameErrorMessage = "Name must be at least 2 characters.";
+const surnameErrorMessage = "Surname must be at least 2 characters.";
+const phoneNumberErrorMessage = "Phone number must be 10 digit number.";
+const typeErrorMessage = "Type must be selected";
+const workerErrorMessage = "Worker must be selected";
+const startDateErrorMessage = "Date cannot be in the past.";
+
 const EmployeeCalendar = () => {
   const now = new Date();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { id: idParam } = useParams();
+  const Appointments = useSelector((state) => state.adder.appointments || []);
   const [isOpen, setIsOpen] = useState(false);
-  const [startDate, setStartDate] = useState(now);
+  const [startDate, setStartDate] = useState(null);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [workerName, setWorkerName] = useState("");
@@ -32,6 +43,15 @@ const EmployeeCalendar = () => {
   const [isDisabled, setDisabled] = useState(false);
   const [isDisabledButton, setDisabledButton] = useState(false);
   const [isCreate, setCreate] = useState(true);
+  const [error, setError] = useState({
+    name: undefined,
+    surname: undefined,
+    phoneNumber: undefined,
+    type: undefined,
+    workerName: undefined,
+    startDate: undefined
+  });
+  const id = Number(idParam);
 
   const handeSelect = (event) => {
     setType(event.target.value);
@@ -41,7 +61,7 @@ const EmployeeCalendar = () => {
     setName("");
     setSurname("");
     setPhoneNumber("");
-    setStartDate(now);
+    setStartDate(null);
     setDisabled(false);
     setDisabledButton(false);
     setCreate(true);
@@ -54,17 +74,10 @@ const EmployeeCalendar = () => {
     setIsOpen(!isOpen);
   };
 
-  const dispatch = useDispatch();
-
-  const Appointments = useSelector((state) => state.adder.appointments || []);
-
-  const { id: idParam } = useParams();
-  const id = Number(idParam);
   const handleCancel = () => {
     dispatch(cancelAppointment(appointmentId));
     togglePopup();
   };
-  const history = useHistory();
   const worker = useMemo(() => Workers.find((w) => w.id === id), [id]);
 
   function findWorker(idW, workername) {
@@ -72,13 +85,91 @@ const EmployeeCalendar = () => {
     return workEr;
   }
 
+  useEffect(() => {
+    if (name.length < 2 && name !== "") {
+      setError((e) => ({
+        ...e,
+        name: nameErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, name: name === "" ? undefined : "" }));
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (surname.length < 2 && surname !== "") {
+      setError((e) => ({
+        ...e,
+        surname: surnameErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, surname: surname === "" ? undefined : "" }));
+    }
+  }, [surname]);
+
+  useEffect(() => {
+    if ((phoneNumber.length !== 10 || !isNumeric(phoneNumber)) && phoneNumber !== "") {
+      setError((e) => ({
+        ...e,
+        phoneNumber: phoneNumberErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, phoneNumber: phoneNumber === "" ? undefined : "" }));
+    }
+  }, [phoneNumber]);
+
+  useEffect(() => {
+    if (type !== "") {
+      setError((e) => ({ ...e, type: "" }));
+    }
+  }, [type]);
+
+  useEffect(() => {
+    if (startDate !== null && !validateDate(Date.now(), startDate)) {
+      setError((e) => ({ ...e, startDate: startDateErrorMessage }));
+    } else {
+      setError((e) => ({ ...e, startDate: startDate === null ? undefined : "" }));
+    }
+  }, [startDate]);
+
+  useEffect(() => {
+    if (workerName !== "") {
+      setError((e) => ({ ...e, workerName: "" }));
+    }
+  }, [workerName]);
+
+  const showAllErrors = () => {
+    if (error.name === undefined) {
+      setError((e) => ({ ...e, name: nameErrorMessage }));
+    }
+    if (error.phoneNumber === undefined) {
+      setError((e) => ({ ...e, phoneNumber: phoneNumberErrorMessage }));
+    }
+    if (error.surname === undefined) {
+      setError((e) => ({ ...e, surname: surnameErrorMessage }));
+    }
+    if (error.type === undefined) {
+      setError((e) => ({ ...e, type: typeErrorMessage }));
+    }
+    if (error.workerName === undefined) {
+      setError((e) => ({ ...e, workerName: workerErrorMessage }));
+    }
+    if (error.startDate === undefined) {
+      setError((e) => ({ ...e, startDate: startDateErrorMessage }));
+    }
+  };
+
   const onClickUpdate = () => {
-    const foundWorker = findWorker(-1, workerName);
-    if (foundWorker === undefined) return;
-    const result = validateAppointment(phoneNumber, now, startDate);
-    if (!result) return;
-    dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
-    togglePopup();
+    const hasError = Object.values(error).some((e) => !!e || e === undefined);
+
+    if (hasError) {
+      showAllErrors();
+    } else {
+      const foundWorker = findWorker(-1, workerName);
+      if (foundWorker === undefined) return;
+      dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
+      togglePopup();
+    }
   };
   const handleForward = () => {
     history.push(`/employees/${id + 1}`);
@@ -121,10 +212,14 @@ const EmployeeCalendar = () => {
     togglePopup();
   };
   const handleClick = () => {
-    const result = validateAppointment(phoneNumber, now, startDate);
-    if (!result) return;
-    dispatch(add(id, name, surname, phoneNumber, startDate, type));
-    togglePopup();
+    const hasError = Object.values(error).some((e) => !!e || e === undefined);
+
+    if (hasError) {
+      showAllErrors();
+    } else {
+      dispatch(add(id, name, surname, phoneNumber, startDate, type));
+      togglePopup();
+    }
   };
 
   const renderSlot = (args) => {
@@ -155,6 +250,8 @@ const EmployeeCalendar = () => {
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Name"
                   />
+                  {error.name && <span className="text-red-500">{error.name}</span>}
+
                   <input
                     disabled={isDisabledButton}
                     value={surname}
@@ -162,12 +259,15 @@ const EmployeeCalendar = () => {
                     className=" px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Surname"
                   />
+                  {error.surname && <span className="text-red-500">{error.surname}</span>}
+
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Phone Number"
                   />
+                  {error.phoneNumber && <span className="text-red-500">{error.phoneNumber}</span>}
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Worker Information</p>
@@ -177,6 +277,8 @@ const EmployeeCalendar = () => {
                     values={worker.type}
                     onChange={handeSelect}
                   />
+                  {error.type && <span className="text-red-500">{error.type}</span>}
+
                   <ComboBox
                     className={clsx(
                       "px-2 h-7 rounded-3xl bg-popup",
@@ -188,6 +290,8 @@ const EmployeeCalendar = () => {
                     values={filteredUser.map((user) => user.userName)}
                     onChange={handleWorkerSelect}
                   />
+                  {error.workerName && <span className="text-red-500">{error.workerName}</span>}
+
                   <DateSelector
                     handleDisable={isDisabled}
                     startDate={startDate}
@@ -197,6 +301,7 @@ const EmployeeCalendar = () => {
                       findWorkerId(Workers, worker?.userName)
                     )}
                   />
+                  {error.startDate && <span className="text-red-500">{error.startDate}</span>}
                 </div>
                 {isCreate ? (
                   <Button

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,10 +6,17 @@ import dayjs from "dayjs";
 import clsx from "clsx";
 import { Popup, Button, BackButton, DateSelector, ComboBox, Title } from "../../components";
 import Workers from "../../store/employees";
-import { parseToFormat, parseToHour, mapToDates } from "../../helper";
-import { NEW, DONE, cancelAppointment, updateAppointment } from "../../store/appointment";
+import { mapToDates } from "../../helper";
+import { cancelAppointment, updateAppointment } from "../../store/appointment";
 import "react-datepicker/dist/react-datepicker.css";
-import { validateAppointment } from "../../validator";
+import { isNumeric, validateDate } from "../../validator";
+
+const nameErrorMessage = "Name must be at least 2 characters.";
+const surnameErrorMessage = "Surname must be at least 2 characters.";
+const phoneNumberErrorMessage = "Phone number must be 10 digit number.";
+const typeErrorMessage = "Type must be selected";
+const workerErrorMessage = "Worker must be selected";
+const startDateErrorMessage = "Date cannot be in the past.";
 
 const Search = () => {
   const nowDate = new Date();
@@ -19,13 +26,74 @@ const Search = () => {
   const searchWord = useSelector((state) => state.searchKey);
   const arrayAppoint = useSelector((state) => state.adder.appointments || []);
 
-  const [startDate, setStartDate] = useState(nowDate);
+  const [startDate, setStartDate] = useState(null);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [workerName, setWorkerName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [type, setType] = useState("");
   const [appointmentId, setId] = useState(0);
+  const [error, setError] = useState({
+    name: undefined,
+    surname: undefined,
+    phoneNumber: undefined,
+    type: undefined,
+    workerName: undefined,
+    startDate: undefined
+  });
+
+  useEffect(() => {
+    if (name.length < 2 && name !== "") {
+      setError((e) => ({
+        ...e,
+        name: nameErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, name: name === "" ? undefined : "" }));
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (surname.length < 2 && surname !== "") {
+      setError((e) => ({
+        ...e,
+        surname: surnameErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, surname: surname === "" ? undefined : "" }));
+    }
+  }, [surname]);
+
+  useEffect(() => {
+    if ((phoneNumber.length !== 10 || !isNumeric(phoneNumber)) && phoneNumber !== "") {
+      setError((e) => ({
+        ...e,
+        phoneNumber: phoneNumberErrorMessage
+      }));
+    } else {
+      setError((e) => ({ ...e, phoneNumber: phoneNumber === "" ? undefined : "" }));
+    }
+  }, [phoneNumber]);
+
+  useEffect(() => {
+    if (type !== "") {
+      setError((e) => ({ ...e, type: "" }));
+    }
+  }, [type]);
+
+  useEffect(() => {
+    if (startDate !== null && !validateDate(Date.now(), startDate)) {
+      setError((e) => ({ ...e, startDate: startDateErrorMessage }));
+    } else {
+      setError((e) => ({ ...e, startDate: startDate === null ? undefined : "" }));
+    }
+  }, [startDate]);
+
+  useEffect(() => {
+    if (workerName !== "") {
+      setError((e) => ({ ...e, workerName: "" }));
+    }
+  }, [workerName]);
 
   const [filteredUser, setFilteredSelect] = useState([]);
   const handleClick = () => {
@@ -61,7 +129,7 @@ const Search = () => {
     setName("");
     setSurname("");
     setPhoneNumber("");
-    setStartDate();
+    setStartDate(null);
     setFilteredSelect([]);
   }
 
@@ -81,12 +149,33 @@ const Search = () => {
   };
 
   const onClick = () => {
-    const foundWorker = findWorker(-1, workerName);
-    if (foundWorker === undefined) return;
-    const result = validateAppointment(phoneNumber, nowDate, startDate);
-    if (!result) return;
-    dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
-    togglePopup();
+    const hasError = Object.values(error).some((e) => !!e || e === undefined);
+
+    if (hasError) {
+      if (error.name === undefined) {
+        setError((e) => ({ ...e, name: nameErrorMessage }));
+      }
+      if (error.phoneNumber === undefined) {
+        setError((e) => ({ ...e, phoneNumber: phoneNumberErrorMessage }));
+      }
+      if (error.surname === undefined) {
+        setError((e) => ({ ...e, surname: surnameErrorMessage }));
+      }
+      if (error.type === undefined) {
+        setError((e) => ({ ...e, type: typeErrorMessage }));
+      }
+      if (error.workerName === undefined) {
+        setError((e) => ({ ...e, workerName: workerErrorMessage }));
+      }
+      if (error.startDate === undefined) {
+        setError((e) => ({ ...e, startDate: startDateErrorMessage }));
+      }
+    } else {
+      const foundWorker = findWorker(-1, workerName);
+      if (foundWorker === undefined) return;
+      dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
+      togglePopup();
+    }
   };
 
   const handleCancel = () => {
@@ -211,13 +300,18 @@ const Search = () => {
               <>
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Appointment Information</p>
-                  <h1 className="px-2 h-7 rounded-3xl bg-popup text-secondary">{name}</h1>
-                  <h1 className=" px-2 h-7 rounded-3xl bg-popup text-secondary">{surname}</h1>
+                  <h1 className="px-2 h-7 rounded-3xl bg-popup text-secondary select-none">
+                    {name}
+                  </h1>
+                  <h1 className=" px-2 h-7 rounded-3xl bg-popup text-secondary select-none">
+                    {surname}
+                  </h1>
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                   />
+                  {error.phoneNumber && <span className="text-red-500">{error.phoneNumber}</span>}
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                   <p className="text-secondary">Worker Information</p>
@@ -227,6 +321,8 @@ const Search = () => {
                     values={["Man Hairdresser", "Woman Hairdresser", "Laser", "Skin Care"]}
                     onChange={handeSelect}
                   />
+                  {error.type && <span className="text-red-500">{error.type}</span>}
+
                   <ComboBox
                     className={clsx(
                       "px-2 h-7 rounded-3xl bg-popup",
@@ -236,12 +332,15 @@ const Search = () => {
                     values={filteredUser.map((user) => user.userName)}
                     onChange={(event) => setWorkerName(event.target.value)}
                   />
+                  {error.workerName && <span className="text-red-500">{error.workerName}</span>}
+
                   <DateSelector
                     handleDate={(date) => setStartDate(date)}
                     startDate={startDate}
                     now={nowDate}
                     bannedDateList={mapToDates(arrayAppoint)}
                   />
+                  {error.startDate && <span className="text-red-500">{error.startDate}</span>}
                 </div>
                 <Button
                   type="submit"
