@@ -4,7 +4,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import clsx from "clsx";
-import { Popup, Button, BackButton, DateSelector, ComboBox } from "../../components";
+import { Popup, Button, BackButton, DateSelector, ComboBox, Title } from "../../components";
 import Workers from "../../store/employees";
 import { parseToFormat, parseToHour, mapToDates } from "../../helper";
 import { NEW, DONE, cancelAppointment, updateAppointment } from "../../store/appointment";
@@ -123,9 +123,12 @@ const Search = () => {
       <BackButton onClick={handleClick}>
         <IoArrowBack color="#e6e6e6" size="2em" />
       </BackButton>
-      <div className="flex space-x-48 h-5/6 justify-center">
-        <div className="w-1/6 rounded-3xl p-2 bg-header">
-          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+      <div className="pt-8 flex flex-col pb-8 xl:flex-row space-y-4 xl:space-x-24 xl:space-y-0 xl:h-5/6 justify-center">
+        <div className="xl:w-1/4 w-full rounded-3xl p-2 bg-header pb-16">
+          <div className="text-xl font-bold text-center text-black font-serif p-4 pb-2 border-b border-black">
+            Appointments
+          </div>
+          <div className="scrollbar--gray my-1 text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {arrayAppoint.map(
               (appointment) =>
                 new Date(appointment.Date) > new Date() &&
@@ -163,8 +166,11 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 rounded-3xl p-2 bg-header">
-          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+        <div className="xl:w-1/4 w-full rounded-3xl p-2 bg-header pb-16">
+          <div className="text-xl font-bold text-center text-black font-serif p-4 pb-2 border-b border-black">
+            Employees Employees
+          </div>
+          <div className="scrollbar--gray my-1 text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {Workers.map(
               (worker) =>
                 worker.userName.toLowerCase().includes(toValue(searchWord)) && (
@@ -177,8 +183,11 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 rounded-3xl p-2 bg-header">
-          <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
+        <div className="xl:w-1/4 w-full rounded-3xl p-2 bg-header  pb-16">
+          <div className="text-xl font-bold text-center text-black font-serif m-4 pb-2 border-b border-black">
+            Past Appointments
+          </div>
+          <div className="scrollbar--gray my-1 text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {arrayAppoint.map(
               (appointment) =>
                 new Date(appointment.Date) < new Date() &&
