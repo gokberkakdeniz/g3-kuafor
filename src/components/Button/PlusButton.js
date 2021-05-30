@@ -78,19 +78,19 @@ const PlusButton = () => {
                   <input
                     value={name}
                     onChange={(event) => setName(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Name"
                   />
                   <input
                     value={surname}
                     onChange={(event) => setSurname(event.target.value)}
-                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className=" px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Surname"
                   />
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                     placeholder="Phone Number"
                   />
                 </div>

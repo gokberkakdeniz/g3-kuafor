@@ -22,7 +22,10 @@ const SearchBarButton = ({ className, style, children }) => {
     <div className="relative flex float-right flex-start items-center" style={style}>
       <IoIosSearch className="ml-4 absolute" color="#e6e6e6" size="1.5em" />
       <input
-        className={clsx("p-4 px-12 flex float-right flex-start", className)}
+        className={clsx(
+          "p-4 px-12 flex float-right flex-start border outline-none focus:outline-none focus:border-gray-300",
+          className
+        )}
         onKeyPress={handleKey}
         id="search-bar"
         type="text"

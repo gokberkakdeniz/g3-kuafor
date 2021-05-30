@@ -158,7 +158,7 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+        <div className="w-1/6 rounded-3xl p-2 bg-header">
           <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {Workers.map(
               (worker) =>
@@ -170,7 +170,7 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6 bg-red-700 rounded-3xl p-2 bg-header">
+        <div className="w-1/6rounded-3xl p-2 bg-header">
           <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {arrayAppoint.map(
               (appointment) =>
@@ -200,7 +200,7 @@ const Search = () => {
                   <input
                     value={phoneNumber}
                     onChange={(event) => setPhoneNumber(event.target.value)}
-                    className="px-2 h-7 rounded-3xl bg-popup text-secondary"
+                    className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
                   />
                 </div>
                 <div className="grid grid-cols-1 gap-2">
