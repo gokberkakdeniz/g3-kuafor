@@ -169,7 +169,6 @@ const Search = () => {
               (worker) =>
                 worker.userName.toLowerCase().includes(toValue(searchWord)) && (
                   <Link to={`/employees/${worker.id}`}>
-                    {" "}
                     <h1 key={worker.userName} className=" text-secondary p-2">
                       {worker.userName}
                     </h1>
@@ -178,7 +177,7 @@ const Search = () => {
             )}
           </div>
         </div>
-        <div className="w-1/6rounded-3xl p-2 bg-header">
+        <div className="w-1/6 rounded-3xl p-2 bg-header">
           <div className="scrollbar--gray text-xs overflow-y-auto overflow-x-hidden flex flex-col w-full items-center h-full bg-transparent">
             {arrayAppoint.map(
               (appointment) =>
