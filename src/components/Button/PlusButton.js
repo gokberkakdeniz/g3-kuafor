@@ -205,7 +205,7 @@ const PlusButton = () => {
                   />
                   {error.phoneNumber && <span className="text-red-500">{error.phoneNumber}</span>}
                 </div>
-                <div className="grid grid-cols-1 gap-2">
+                <div className="grid grid-cols-1 gap-2 pt-4">
                   <p className="text-secondary">Worker Information</p>
                   <ComboBox
                     className="px-2 h-7 rounded-3xl bg-popup text-secondary"

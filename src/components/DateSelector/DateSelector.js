@@ -32,7 +32,7 @@ const DateSelector = ({ handleDisable, handleDate, startDate, bannedDateList, no
       disabled={handleDisable}
       timeClassName={handleColor}
       dayClassName={handleColor}
-      className="px-2 h-7 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
+      className="px-2 h-7 w-52 rounded-3xl bg-popup text-secondary border border-transparent outline-none focus:outline-none focus:border-accent"
       showTimeSelect
       required
       filterDate={filterDate}
@@ -43,6 +43,18 @@ const DateSelector = ({ handleDisable, handleDate, startDate, bannedDateList, no
       isClearable
       selected={startDate}
       onChange={handleDate}
+      popperPlacement="bottom-start"
+      popperModifiers={{
+        flip: {
+          behavior: ["bottom"]
+        },
+        preventOverflow: {
+          enabled: true
+        },
+        hide: {
+          enabled: true
+        }
+      }}
     />
   );
 };
