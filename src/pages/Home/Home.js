@@ -15,7 +15,9 @@ const Home = () => {
               alt=""
               className="md:w-96 md:h-96 sm:w-48 sm:h-48 h-24 w-24 mx-auto"
             />
-            <h2 className="font-bold font-serif md:text-xl sm:text-lg text-md p-4">Employees</h2>
+            <h2 className="font-bold font-serif md:text-xl sm:text-lg text-md p-4 text-white">
+              Employees
+            </h2>
           </div>
         </Link>
       </div>
@@ -28,7 +30,9 @@ const Home = () => {
               alt=""
               className="md:w-96 md:h-96 sm:w-48 sm:h-48 h-24 w-24 mx-auto"
             />
-            <h2 className="font-bold font-serif md:text-xl sm:text-lg text-md p-4">Calendar</h2>
+            <h2 className="font-bold font-serif md:text-xl sm:text-lg text-md p-4 text-white">
+              Calendar
+            </h2>
           </div>
         </Link>
       </div>

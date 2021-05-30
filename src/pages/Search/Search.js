@@ -350,14 +350,14 @@ const Search = () => {
                 <Button
                   type="submit"
                   onClick={onClick}
-                  className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                  className="bg-accent flex-col absolute bottom-5 w-24 h-10 rounded-3xl right-5 justify-center items-center leading-10 text-white">
                   Update
                 </Button>
                 <Button
                   type="button"
                   onClick={handleCancel}
-                  className="bg-cancel flex-col absolute bottom-5 w-24 h-12 rounded-3xl left-5">
-                  Cancel
+                  className="bg-cancel flex-col absolute bottom-5 w-24 h-10 rounded-3xl left-5 justify-center items-center leading-10 text-white">
+                  Remove
                 </Button>
               </>
             }

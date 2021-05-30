@@ -246,7 +246,7 @@ const PlusButton = () => {
                 <Button
                   type="submit"
                   onClick={onClick}
-                  className="bg-accent flex-col absolute bottom-5 w-24 h-12 rounded-3xl right-5">
+                  className="bg-accent flex-col absolute bottom-5 w-24 h-10 rounded-3xl right-5 justify-center items-center leading-10 text-white">
                   Create
                 </Button>
               </>
