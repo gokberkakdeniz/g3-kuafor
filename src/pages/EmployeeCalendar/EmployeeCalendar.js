@@ -234,9 +234,8 @@ const EmployeeCalendar = () => {
           </BackButton>
         </Link>
       </div>
-
+      <div className="text-center text-2xl font-bold mb-4">{`${worker.userName}'s Schedule`}</div>
       <WeeklySchedule onClick={handleSlotClick} renderer={renderSlot} />
-
       <div className="absolute left-8 bottom-8">
         <div className="flex flex-row space-x-4 items-center mt-auto" style={{ width: "92.5rem" }}>
           <div>
