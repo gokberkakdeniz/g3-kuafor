@@ -218,6 +218,7 @@ const EmployeeCalendar = () => {
     if (hasError) {
       showAllErrors();
     } else {
+      if (type.includes("Type")) return;
       dispatch(add(id, name, surname, phoneNumber, startDate, type));
       togglePopup();
     }
@@ -350,7 +351,7 @@ const EmployeeCalendar = () => {
             </BackButton>
           </div>
           <div className="w-40 flex justify-center">
-            <span className="">{worker?.userName}</span>
+            <span className="text-white">{worker?.userName}</span>
           </div>
           <div>
             <BackButton onClick={handleForward} disabled={Workers[Workers.length - 1].id === id}>

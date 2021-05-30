@@ -40,8 +40,6 @@ function increaseLaser(laserSkin, type) {
   const temp = laserSkin + val;
   return temp;
 }
-// FIXME burada şey yapmak lazım eğer man işe beautyleride katmak lazım woman isede katmak lazım
-// ama diğer taraftan eksiltip o taraftan eksiltmemek lazım
 
 function giveNumber(val, wanted) {
   if (val === undefined) return 0;

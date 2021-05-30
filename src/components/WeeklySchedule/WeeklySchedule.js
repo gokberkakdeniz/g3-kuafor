@@ -17,7 +17,7 @@ const WeeklySchedule = ({ renderer, onClick, from = 7, to = 24, length = 0.5 }) 
               </BackButton>
             </div>
             <div className="w-60 flex justify-center">
-              <span className="">{weekText}</span>
+              <span className="text-white">{weekText}</span>
             </div>
             <div>
               <BackButton onClick={next} small>
