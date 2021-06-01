@@ -138,6 +138,7 @@ const Calendar = () => {
       const beautyPlace = type.includes("Beauty Center") ? chooseType() : NEW;
 
       dispatch(add(foundWorker.id, name, surname, phoneNumber, startDate, type, beautyPlace));
+      window.alert("Appointment is creates successfully");
       togglePopup();
     }
   };
