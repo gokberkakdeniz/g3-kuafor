@@ -173,13 +173,16 @@ const Search = () => {
       const foundWorker = findWorker(-1, workerName);
       if (foundWorker === undefined) return;
       dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
+      window.alert("Appointment is updated successfully");
       togglePopup();
     }
   };
 
   const handleCancel = () => {
-    dispatch(cancelAppointment(appointmentId));
-    togglePopup();
+    if (window.confirm("Do you really want to remove?")) {
+      dispatch(cancelAppointment(appointmentId));
+      togglePopup();
+    }
   };
 
   function toValue(value) {

@@ -75,8 +75,10 @@ const EmployeeCalendar = () => {
   };
 
   const handleCancel = () => {
-    dispatch(cancelAppointment(appointmentId));
-    togglePopup();
+    if (window.confirm("Do you really want to remove?")) {
+      dispatch(cancelAppointment(appointmentId));
+      togglePopup();
+    }
   };
   const worker = useMemo(() => Workers.find((w) => w.id === id), [id]);
 
@@ -168,6 +170,7 @@ const EmployeeCalendar = () => {
       const foundWorker = findWorker(-1, workerName);
       if (foundWorker === undefined) return;
       dispatch(updateAppointment(appointmentId, foundWorker.id, phoneNumber, startDate, type));
+      window.alert("Appointment is updated successfully");
       togglePopup();
     }
   };
@@ -220,6 +223,7 @@ const EmployeeCalendar = () => {
     } else {
       if (type.includes("Type")) return;
       dispatch(add(id, name, surname, phoneNumber, startDate, type));
+      window.alert("Appointment is created successfully");
       togglePopup();
     }
   };

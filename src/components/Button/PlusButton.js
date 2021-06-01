@@ -141,6 +141,7 @@ const PlusButton = () => {
       if (foundWorker === undefined) return;
 
       dispatch(add(foundWorker.id, name.trim(), surname.trim(), phoneNumber, startDate, type));
+      window.alert("Appointment is created succesfully");
       togglePopup();
     }
   };
